@@ -27,7 +27,8 @@ namespace Pexeso
         public MainPage()
         {
             this.InitializeComponent();
-            InitGrid(8);          
+            InitGrid(8);
+            GeneratePossiblePositions(8);
         }
 
         //crate and draw rectangles
@@ -54,5 +55,37 @@ namespace Pexeso
 
             }
         }
+
+        // create set of all possible positions
+        private List<string> GeneratePossiblePositions(int size)
+        {
+            //HashSet<string> set = new HashSet<string>();
+            var list = new List<string>();
+
+            for (var row = 0; row < size; row++)
+            {
+                for (var col = 0; col < size; col++)
+                {
+                    list.Add(row + "_" + col);
+                }
+
+            }
+
+            //shuffle list
+            //https://forum.unity.com/threads/clever-way-to-shuffle-a-list-t-in-one-line-of-c-code.241052
+            var random = new Random();
+
+            var shuffledList = list.OrderBy(x => random.Next()).ToList();
+
+            return shuffledList;
+
+        }
+
+        // loop through each one
+        // take two off the top
+        // create 2 rectanges
+        // assign same id to both
+        // place them on the grid
+
     }
 }
