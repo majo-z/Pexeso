@@ -26,6 +26,8 @@ namespace Pexeso
     public sealed partial class MainPage : Page
     {
         private Random _rnd = new Random();
+        private Rectangle _previous;
+        private Rectangle _current;
         public MainPage()
         {
             this.InitializeComponent();
@@ -42,31 +44,6 @@ namespace Pexeso
                 gameGrid.RowDefinitions.Add(new RowDefinition());
                 gameGrid.ColumnDefinitions.Add(new ColumnDefinition());
             }
-            /*
-            for (int row = 0; row < size; row++)
-            {
-                for (int col = 0; col < size; col++)
-                {
-                    Rectangle rect = new Rectangle();
-
-                    // imagebrush is an object
-                    ImageBrush brush = new ImageBrush();
-                    Uri uri = new Uri("ms-appx:///Images/1.png", UriKind.RelativeOrAbsolute);
-                    BitmapImage bitmap = new BitmapImage(uri);
-
-                    brush.ImageSource = bitmap;
-
-                    rect.Fill = brush;
-                    //rect.Fill = new SolidColorBrush(Colors.Red);
-                    rect.SetValue(Grid.RowProperty, row);
-                    rect.SetValue(Grid.ColumnProperty, col);
-                    rect.Width = 20;
-                    rect.Height = 20;
-                    gameGrid.Children.Add(rect);
-                }
-
-            }
-            */
         }
 
         // create set of all possible positions
@@ -98,7 +75,7 @@ namespace Pexeso
         {
             Rectangle rect = new Rectangle();
             ImageBrush brush = new ImageBrush(); // imagebrush is an object
-            Uri uri = new Uri("ms-appx:///Images/" + imageNum.ToString() + ".png", UriKind.RelativeOrAbsolute);
+            Uri uri = new Uri("ms-appx:///Assets/Images/" + imageNum.ToString() + ".png", UriKind.RelativeOrAbsolute);
             BitmapImage bitmap = new BitmapImage(uri);
 
             brush.ImageSource = bitmap;
@@ -113,14 +90,16 @@ namespace Pexeso
         {
             rect.SetValue(Grid.RowProperty, row);
             rect.SetValue(Grid.ColumnProperty, col);
-            rect.Width = 20;
-            rect.Height = 20;
+            rect.Width = 40;
+            rect.Height = 40;
             gameGrid.Children.Add(rect);
         }
 
         private void FillPositions()
         {
             // get all possible positions
+      
+            var usedNumbers = new HashSet<int>(); // keep track of all the image numbers used so far
             var allPositions = new Stack<string>(GeneratePossiblePositions(8));
             while (allPositions.Count > 0) // keep going until no positions are left
             {
@@ -129,12 +108,21 @@ namespace Pexeso
 
                 // https://stackoverflow.com/questions/2706500/how-do-i-generate-a-random-int-number-in-c
                 
-                int imageNum = _rnd.Next(1, 4);   // creates a number between 1 and 3
+                int imageNum = _rnd.Next(1, 62);   // creates a number between 1 and 61
+
+                // ensure that there is only one pair of each image.
+                while (usedNumbers.Contains(imageNum))
+                {
+                    imageNum = _rnd.Next(1, 62);
+                }
+
+                usedNumbers.Add(imageNum);
 
                 // create 2 rectanges and connect them
-                var rect1 = GenerateRectangle(imageNum, "?");
+                var rect1 = GenerateRectangle(1, imageNum.ToString());
 
-                var rect2 = GenerateRectangle(imageNum, "?");
+                var rect2 = GenerateRectangle(1, imageNum.ToString());
+           
 
                 // take two off the top
                 string first = allPositions.Pop(); // "0_0"
@@ -149,6 +137,9 @@ namespace Pexeso
                 int col1 = Int32.Parse(row1Col1[1]);
                 int row2 = Int32.Parse(row2Col2[0]);
                 int col2 = Int32.Parse(row2Col2[1]);
+
+                rect1.Tapped += Rectangle_Tapped;
+                rect2.Tapped += Rectangle_Tapped;
 
 
                 AddRectangleToGrid(rect1, row1, col1);
@@ -170,8 +161,65 @@ namespace Pexeso
 
         }
 
+        private void ToggleImage(Rectangle rect)
+        {
+            ImageBrush brush = new ImageBrush(); // imagebrush is an object
+            Uri uri = new Uri("ms-appx:///Assets/Images/" + rect.Tag.ToString() + ".png", UriKind.RelativeOrAbsolute);
+            BitmapImage bitmap = new BitmapImage(uri);
 
-       
+            brush.ImageSource = bitmap;
 
+            rect.Fill = brush;
+        }
+
+        private void SetToDefault(Rectangle rect)
+        {
+            ImageBrush brush = new ImageBrush(); // imagebrush is an object
+            Uri uri = new Uri("ms-appx:///Assets/Images/1.png", UriKind.RelativeOrAbsolute);
+            BitmapImage bitmap = new BitmapImage(uri);
+
+            brush.ImageSource = bitmap;
+
+            rect.Fill = brush;
+        }
+
+        // this method gets called when a user taps a rectangle
+        private void Rectangle_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            //var rect = (Rectangle) sender;
+            var rect = sender as Rectangle;
+            _current = rect;
+
+            // this is the first click.
+            if (_previous == null)
+            {
+                ToggleImage(_current);
+                _previous = _current;
+                return;
+            }
+            else // the user has clicked on a previous tile.
+            { // attempt to match
+
+                bool tilesAreTheSame = _current.Tag == _previous.Tag;
+                if (!tilesAreTheSame)
+                {
+                    SetToDefault(_current);
+                    SetToDefault(_previous);
+                    _previous = null;
+                    _current = null;
+                }
+            }
+
+            // compare both tiles.
+            if (_current != null)
+            {
+                ToggleImage(_current);
+            }
+ 
+            
+            
+
+            _previous = _current;
+        }
     }
 }
