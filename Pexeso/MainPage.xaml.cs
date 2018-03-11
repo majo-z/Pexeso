@@ -29,11 +29,13 @@ namespace Pexeso
         private Rectangle _firstRectangle;
         private Rectangle _secondRectangle;
         private int _clickNo;
+        private int _gridSize;
         public MainPage()
         {
             this.InitializeComponent();
-            InitGrid(4);
-            FillPositions(4);
+            _gridSize = 4;
+            InitGrid(_gridSize);
+            FillPositions(_gridSize);
             // GeneratePossiblePositions(8);
         }
 
@@ -159,6 +161,10 @@ namespace Pexeso
         //game reset button
         private void gameReset_Click(object sender, RoutedEventArgs e)
         {
+            gameGrid.RowDefinitions.Clear(); // delete all the rows
+            gameGrid.ColumnDefinitions.Clear(); // delete all the columns
+            InitGrid(_gridSize);
+            FillPositions(_gridSize);
 
         }
 
