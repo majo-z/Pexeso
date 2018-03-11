@@ -8,18 +8,30 @@
     mc:Ignorable="d">
 
     <Grid x:Name="rootGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Grid x:Name="gameGrid" Height="500" Width="500">
-
-            </Grid>
-        </StackPanel>
-
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
-            <Button x:Name="gameReset" Content="Reset Game" 
+        <Pivot>
+            <PivotItem Header="Game"> 
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button x:Name="gameReset" Content="Reset Game" 
+                    Margin="0,0,0,75"
                 HorizontalAlignment="Center" 
                 VerticalAlignment="center"  
                 Click="gameReset_Click" />
-        </StackPanel>
+                    <Grid x:Name="gameGrid" Height="500" Width="500">
+
+                    </Grid>
+                </StackPanel>
+            </PivotItem>
+            <PivotItem Header="Settings">
+                
+            </PivotItem>
+            <PivotItem Header="About">
+
+            </PivotItem>
+        </Pivot>
+   
+
+        <!--StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+           
+        </-->
     </Grid>
 </Page>

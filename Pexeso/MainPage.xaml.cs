@@ -26,13 +26,14 @@ namespace Pexeso
     public sealed partial class MainPage : Page
     {
         private Random _rnd = new Random();
-        private Rectangle _previous;
-        private Rectangle _current;
+        private Rectangle _firstRectangle;
+        private Rectangle _secondRectangle;
+        private int _clickNo;
         public MainPage()
         {
             this.InitializeComponent();
-            InitGrid(8);
-            FillPositions();
+            InitGrid(4);
+            FillPositions(4);
             // GeneratePossiblePositions(8);
         }
 
@@ -95,12 +96,12 @@ namespace Pexeso
             gameGrid.Children.Add(rect);
         }
 
-        private void FillPositions()
+        private void FillPositions(int size)
         {
             // get all possible positions
       
             var usedNumbers = new HashSet<int>(); // keep track of all the image numbers used so far
-            var allPositions = new Stack<string>(GeneratePossiblePositions(8));
+            var allPositions = new Stack<string>(GeneratePossiblePositions(size));
             while (allPositions.Count > 0) // keep going until no positions are left
             {
               
@@ -186,7 +187,59 @@ namespace Pexeso
         // this method gets called when a user taps a rectangle
         private void Rectangle_Tapped(object sender, TappedRoutedEventArgs e)
         {
+            // get the rectangle that was clicked
+            var rect = (Rectangle) sender;
+            // on first click, the tile flips
+            if (_clickNo == 0)
+            {
+                ToggleImage(rect);
+                _firstRectangle = rect;
+                _clickNo = 1;
+            }
+            else if (_clickNo == 1)
+            {  // on second click, tile flips
+                if (_firstRectangle == rect)
+                {
+                    return;
+                }
+                ToggleImage(rect);
+                _secondRectangle = rect;
+                _clickNo = 2;
+
+            }
+            else if (_clickNo == 2)
+            {// this is the 3rd click, check the previous 2 rectangles to see if they match
+                if (rect == _firstRectangle || rect ==_secondRectangle)
+                { // ignore clicks on the same two rectangles.
+                    return;
+                }
+                bool rectanglesMatch = _firstRectangle.Tag.ToString() == _secondRectangle.Tag.ToString();
+                if (rectanglesMatch)
+                {
+                    // remove the evant handler so it cant be clicked again
+                    _firstRectangle.Tapped -= Rectangle_Tapped;
+                    _secondRectangle.Tapped -= Rectangle_Tapped;
+                }
+                else
+                {
+                    // reset the 2 images that didn't match
+                    SetToDefault(_firstRectangle);
+                    SetToDefault(_secondRectangle);
+
+                }
+                ToggleImage(rect); // display the new image
+                _firstRectangle = rect; // save it
+                _clickNo = 1;
+            }
+           
+            // if they're the same. They stay up
+            // if they're not the same. Thty stay up
+            // on a third click, if they were the same, the stay up -> remove event handler
+            // if they weren't the same, they go down. -> keep event handler
+
+
             //var rect = (Rectangle) sender;
+            /*
             var rect = sender as Rectangle;
             _current = rect;
 
@@ -220,6 +273,7 @@ namespace Pexeso
             
 
             _previous = _current;
+            */
         }
     }
 }
