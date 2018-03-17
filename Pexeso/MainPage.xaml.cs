@@ -43,13 +43,15 @@ namespace Pexeso
         public MainPage()
         {
             InitializeComponent();
+           
              // ApplicationData.Current.LocalSettings.Values["games"] = null;//enable to wipe out the local storage
             _gameHistory = LocalStorage.Load(); // read from local storage and populate the observable collection.
              //_gameHistory.Add(new Game(DateTime.Now, 10));
              //_gameHistory.Add(new Game(DateTime.Now, 20));
             ListView.ItemsSource = _gameHistory;
-            _gridSize = 2;
+            _gridSize = 4;
             InitGrid(_gridSize);
+            DisplayScores();
             //FillPositions(_gridSize);
             // GeneratePossiblePositions(8);
         }
@@ -220,6 +222,12 @@ namespace Pexeso
             rect.Fill = brush;
         }
 
+        private void DisplayScores()
+        {
+            HighScore.Text = "High Score: " + LocalStorage.LoadHighScore();
+            CurrentScore.Text = "Current Score: " + _currentScore;
+        }
+
         // this method gets called when a user taps a rectangle
         private void Rectangle_Tapped(object sender, TappedRoutedEventArgs e)
         {
@@ -246,7 +254,12 @@ namespace Pexeso
                 if (gameOver)
                 {
                     _currentScore += 10;
-                    CurrentScore.Text = "Current Score: " + _currentScore;
+                    if (_currentScore > LocalStorage.LoadHighScore())
+                    {
+                        LocalStorage.SaveHighScore(_currentScore);
+                    }
+
+                    DisplayScores();
                     // TODO handle end of game
                     // adding a game to the game history observable collection will make it appear in the game history page.
                     _gameHistory.Add(new Game(DateTime.Now, _currentScore));
@@ -273,13 +286,17 @@ namespace Pexeso
                     _secondRectangle.Tapped -= Rectangle_Tapped;
                     _totalTilesLeft -= 2; // we have 2 fewer tiles.
                     _currentScore += 10; // user gets 10 points when getting a match
+                    if (_currentScore > LocalStorage.LoadHighScore())
+                    {
+                        LocalStorage.SaveHighScore(_currentScore);
+                    }
                 }
                 else
                 {
                     // reset the 2 images that didn't match
                     SetToDefault(_firstRectangle);
                     SetToDefault(_secondRectangle);
-                    _currentScore -= 5; // user loses 5 if the make a mistake.
+                    _currentScore -= 1; // user loses 5 if the make a mistake.
                     // the minimum score is 0, prevent negative scores.
                     if (_currentScore < 0)
                     {
@@ -291,13 +308,13 @@ namespace Pexeso
                 _firstRectangle = rect; // save it
                 _clickNo = 1;
             }
-           
+
             // if they're the same. They stay up
             // if they're not the same. Thty stay up
             // on a third click, if they were the same, the stay up -> remove event handler
             // if they weren't the same, they go down. -> keep event handler
 
-            CurrentScore.Text = "Current Score: " + _currentScore;
+            DisplayScores();
 
         }
     }

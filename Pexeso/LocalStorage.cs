@@ -12,6 +12,22 @@ namespace Pexeso
     // LocalStorage is a class that provides Save/Load helper methods to interact with the system storage.
     class LocalStorage
     {
+        // save the high score
+        public static void SaveHighScore(int highScore)
+        {
+            ApplicationData.Current.LocalSettings.Values["highScore"] = highScore;
+        }
+
+        public static int LoadHighScore()
+        {
+            // means no high score has been saved
+            if (ApplicationData.Current.LocalSettings.Values["highScore"] == null)
+            {
+                return 0;
+            }
+
+            return (int) ApplicationData.Current.LocalSettings.Values["highScore"];
+        }
         // save every game to local storage
         public static void Save(ObservableCollection<Game> games)
         {

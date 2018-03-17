@@ -15,20 +15,34 @@
             </LinearGradientBrush>
         </Grid.Background>
         <Pivot RequestedTheme="Dark">
-            <PivotItem Header="Game"> 
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Button x:Name="GameReset" Content="Reset Game" RequestedTheme="Dark"
-                    Margin="0,0,0,75"
-                HorizontalAlignment="Center" 
-                VerticalAlignment="center"  
-                Click="GameReset_Click" />
-                    <TextBlock x:Name="CurrentScore">
-                        Current Score: 0
-                    </TextBlock>
-                    <Grid x:Name="GameGrid" Height="600" Width="600">
-
-                    </Grid>
-                </StackPanel>
+            <PivotItem Header="Game">
+                 
+                <!--StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center"-->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock x:Name="HighScore">
+                            High Score: 0
+                        </TextBlock>
+                        <TextBlock x:Name="CurrentScore">
+                            Current Score: 0
+                        </TextBlock>
+                    </StackPanel>
+                    
+                    <Grid Grid.Column="1" Grid.ColumnSpan="2" x:Name="GameGrid" Grid.RowSpan="2" Height="700" Width="700"></Grid>
+                    <!-- Button needs to be placed after the grid otherwise the grid blocks it-->
+                    <Button Grid.Column="0" Grid.Row="1" x:Name="GameReset" Content="Reset Game" RequestedTheme="Dark" HorizontalAlignment="Center"  VerticalAlignment="Center"  Click="GameReset_Click" />
+                </Grid>
+    
+                <!--/-->
             </PivotItem>
             <PivotItem Header="Settings">
                 
