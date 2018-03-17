@@ -8,6 +8,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -42,9 +43,10 @@ namespace Pexeso
         public MainPage()
         {
             InitializeComponent();
-            _gameHistory = new ObservableCollection<Game>(); // read from local storage.
-             _gameHistory.Add(new Game(DateTime.Now, 10));
-             _gameHistory.Add(new Game(DateTime.Now, 20));
+             // ApplicationData.Current.LocalSettings.Values["games"] = null;//enable to wipe out the local storage
+            _gameHistory = LocalStorage.Load(); // read from local storage and populate the observable collection.
+             //_gameHistory.Add(new Game(DateTime.Now, 10));
+             //_gameHistory.Add(new Game(DateTime.Now, 20));
             ListView.ItemsSource = _gameHistory;
             _gridSize = 2;
             InitGrid(_gridSize);
@@ -248,6 +250,8 @@ namespace Pexeso
                     // TODO handle end of game
                     // adding a game to the game history observable collection will make it appear in the game history page.
                     _gameHistory.Add(new Game(DateTime.Now, _currentScore));
+                    // save all the games to local storage.
+                    LocalStorage.Save(_gameHistory);
                     // reset grid, display high score
 
 

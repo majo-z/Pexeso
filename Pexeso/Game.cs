@@ -11,6 +11,16 @@ namespace Pexeso
         public string Date { get; set; }
         public int Score { get; set; }
 
+        public String ToLocalStorageFormat()
+        {
+            return Date+ "," + Score;
+        }
+
+        public Game()
+        {
+
+        }
+
         public Game(DateTime date, int score)
         {
          
