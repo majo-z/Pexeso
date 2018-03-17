@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
@@ -27,6 +28,9 @@ namespace Pexeso
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        // Observable collection holds game objects that the ListView displays in the Game History page
+        // https://www.c-sharpcorner.com/UploadFile/5ef5aa/binding-collection-to-listview-control-in-uwp-explained/
+        private ObservableCollection<Game> _gameHistory; 
         // keep track of current score
         private int _currentScore;
         private Random _rnd = new Random();
@@ -38,9 +42,13 @@ namespace Pexeso
         public MainPage()
         {
             InitializeComponent();
+            _gameHistory = new ObservableCollection<Game>(); // read from local storage.
+             _gameHistory.Add(new Game(DateTime.Now, 10));
+             _gameHistory.Add(new Game(DateTime.Now, 20));
+            ListView.ItemsSource = _gameHistory;
             _gridSize = 2;
             InitGrid(_gridSize);
-            FillPositions(_gridSize);
+            //FillPositions(_gridSize);
             // GeneratePossiblePositions(8);
         }
 
@@ -83,7 +91,7 @@ namespace Pexeso
         {
             Rectangle rect = new Rectangle();
             ImageBrush brush = new ImageBrush(); // imagebrush is an object
-            Uri uri = new Uri("ms-appx:///Assets/Images/" + imageNum.ToString() + ".png", UriKind.RelativeOrAbsolute);
+            Uri uri = new Uri("ms-appx:///Assets/Images/" + imageNum + ".png", UriKind.RelativeOrAbsolute);
             BitmapImage bitmap = new BitmapImage(uri);
 
             brush.ImageSource = bitmap;
@@ -238,6 +246,8 @@ namespace Pexeso
                     _currentScore += 10;
                     CurrentScore.Text = "Current Score: " + _currentScore;
                     // TODO handle end of game
+                    // adding a game to the game history observable collection will make it appear in the game history page.
+                    _gameHistory.Add(new Game(DateTime.Now, _currentScore));
                     // reset grid, display high score
 
 

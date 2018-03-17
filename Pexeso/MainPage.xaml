@@ -33,6 +33,21 @@
             <PivotItem Header="Settings">
                 
             </PivotItem>
+            <PivotItem Header="Game History">
+       
+                    <ListView x:Name="ListView">
+                        <ListView.ItemTemplate>
+                         <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Date}"></TextBlock>
+                                <TextBlock Text="{Binding Score}"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+          
+       
+            </PivotItem>
             <PivotItem Header="About">
 
             </PivotItem>
