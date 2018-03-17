@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
@@ -25,15 +27,18 @@ namespace Pexeso
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        // keep track of current score
+        private int _currentScore;
         private Random _rnd = new Random();
         private Rectangle _firstRectangle;
         private Rectangle _secondRectangle;
         private int _clickNo;
         private int _gridSize;
+        private int _totalTilesLeft;
         public MainPage()
         {
-            this.InitializeComponent();
-            _gridSize = 4;
+            InitializeComponent();
+            _gridSize = 2;
             InitGrid(_gridSize);
             FillPositions(_gridSize);
             // GeneratePossiblePositions(8);
@@ -42,13 +47,13 @@ namespace Pexeso
         //crate and draw rectangles
         private void InitGrid(int size)
         {
-            for (int i = 0; i < size; i++)
-            {
-                gameGrid.RowDefinitions.Add(new RowDefinition());
-                gameGrid.ColumnDefinitions.Add(new ColumnDefinition());
+            for (int i = 0; i < size; i++){
+                GameGrid.RowDefinitions.Add(new RowDefinition());
+                GameGrid.ColumnDefinitions.Add(new ColumnDefinition());
             }
         }
 
+        
         // create set of all possible positions
         private List<string> GeneratePossiblePositions(int size)
         {
@@ -73,7 +78,7 @@ namespace Pexeso
             return shuffledList;
 
         }
-
+        
         private Rectangle GenerateRectangle(int imageNum, string tag)
         {
             Rectangle rect = new Rectangle();
@@ -93,9 +98,9 @@ namespace Pexeso
         {
             rect.SetValue(Grid.RowProperty, row);
             rect.SetValue(Grid.ColumnProperty, col);
-            rect.Width = 40;
-            rect.Height = 40;
-            gameGrid.Children.Add(rect);
+            rect.Width = GameGrid.Width / _gridSize;
+            rect.Height = GameGrid.Height / _gridSize;
+            GameGrid.Children.Add(rect);
         }
 
         private void FillPositions(int size)
@@ -151,20 +156,35 @@ namespace Pexeso
 
             }
 
-        }
-       
-        
-        
-        
-        
+            // calculate the total number of tiles that are in the grid.
+            _totalTilesLeft = _gridSize * _gridSize;
 
-        //game reset button
-        private void gameReset_Click(object sender, RoutedEventArgs e)
+        }
+
+        //prevents filckering old images when reset the game(clear caches)
+        private void ResetImages()
         {
-            gameGrid.RowDefinitions.Clear(); // delete all the rows
-            gameGrid.ColumnDefinitions.Clear(); // delete all the columns
+            GameGrid.RowDefinitions.Clear(); // delete all the rows
+            GameGrid.ColumnDefinitions.Clear(); // delete all the columns
+            //create new grit size and fill the positions with new tiles
             InitGrid(_gridSize);
             FillPositions(_gridSize);
+
+            GameGrid.RowDefinitions.Clear(); // delete all the rows
+            GameGrid.ColumnDefinitions.Clear(); // delete all the columns
+            //create new grit size and fill the positions with new tiles
+            InitGrid(_gridSize);
+            FillPositions(_gridSize);
+        }
+
+
+        //game reset button
+        private void GameReset_Click(object sender, RoutedEventArgs e)
+        {
+            ResetImages();
+            _clickNo = 0;
+            _currentScore = 0;
+            CurrentScore.Text = "Current Score: " + _currentScore;
 
         }
 
@@ -212,9 +232,21 @@ namespace Pexeso
                 _secondRectangle = rect;
                 _clickNo = 2;
 
+                bool gameOver = _totalTilesLeft == 2;
+                if (gameOver)
+                {
+                    _currentScore += 10;
+                    CurrentScore.Text = "Current Score: " + _currentScore;
+                    // TODO handle end of game
+                    // reset grid, display high score
+
+
+                    return;
+                }
+
             }
             else if (_clickNo == 2)
-            {// this is the 3rd click, check the previous 2 rectangles to see if they match
+            { // ton 3rd click, check the previous 2 rectangles to see if they match
                 if (rect == _firstRectangle || rect ==_secondRectangle)
                 { // ignore clicks on the same two rectangles.
                     return;
@@ -222,15 +254,23 @@ namespace Pexeso
                 bool rectanglesMatch = _firstRectangle.Tag.ToString() == _secondRectangle.Tag.ToString();
                 if (rectanglesMatch)
                 {
-                    // remove the evant handler so it cant be clicked again
+                    // remove the evant handler so it can't be clicked again
                     _firstRectangle.Tapped -= Rectangle_Tapped;
                     _secondRectangle.Tapped -= Rectangle_Tapped;
+                    _totalTilesLeft -= 2; // we have 2 fewer tiles.
+                    _currentScore += 10; // user gets 10 points when getting a match
                 }
                 else
                 {
                     // reset the 2 images that didn't match
                     SetToDefault(_firstRectangle);
                     SetToDefault(_secondRectangle);
+                    _currentScore -= 5; // user loses 5 if the make a mistake.
+                    // the minimum score is 0, prevent negative scores.
+                    if (_currentScore < 0)
+                    {
+                        _currentScore = 0;
+                    }
 
                 }
                 ToggleImage(rect); // display the new image
@@ -243,43 +283,8 @@ namespace Pexeso
             // on a third click, if they were the same, the stay up -> remove event handler
             // if they weren't the same, they go down. -> keep event handler
 
+            CurrentScore.Text = "Current Score: " + _currentScore;
 
-            //var rect = (Rectangle) sender;
-            /*
-            var rect = sender as Rectangle;
-            _current = rect;
-
-            // this is the first click.
-            if (_previous == null)
-            {
-                ToggleImage(_current);
-                _previous = _current;
-                return;
-            }
-            else // the user has clicked on a previous tile.
-            { // attempt to match
-
-                bool tilesAreTheSame = _current.Tag == _previous.Tag;
-                if (!tilesAreTheSame)
-                {
-                    SetToDefault(_current);
-                    SetToDefault(_previous);
-                    _previous = null;
-                    _current = null;
-                }
-            }
-
-            // compare both tiles.
-            if (_current != null)
-            {
-                ToggleImage(_current);
-            }
- 
-            
-            
-
-            _previous = _current;
-            */
         }
     }
 }

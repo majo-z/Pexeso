@@ -7,16 +7,25 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid x:Name="rootGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Pivot>
+    <Grid x:Name="rootGrid">
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="Black" Offset="0"/>
+                <GradientStop Color="Red" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Pivot RequestedTheme="Dark">
             <PivotItem Header="Game"> 
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Button x:Name="gameReset" Content="Reset Game" 
+                    <Button x:Name="GameReset" Content="Reset Game" RequestedTheme="Dark"
                     Margin="0,0,0,75"
                 HorizontalAlignment="Center" 
                 VerticalAlignment="center"  
-                Click="gameReset_Click" />
-                    <Grid x:Name="gameGrid" Height="500" Width="500">
+                Click="GameReset_Click" />
+                    <TextBlock x:Name="CurrentScore">
+                        Current Score: 0
+                    </TextBlock>
+                    <Grid x:Name="GameGrid" Height="600" Width="600">
 
                     </Grid>
                 </StackPanel>
