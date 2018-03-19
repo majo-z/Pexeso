@@ -11,13 +11,13 @@
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                 <GradientStop Color="Black" Offset="0"/>
-                <GradientStop Color="Red" Offset="1"/>
+                <GradientStop Color="DarkRed" Offset="1"/>
             </LinearGradientBrush>
         </Grid.Background>
 
         <Pivot x:Name="MainPivot" SelectedIndex="1" RequestedTheme="Dark">
             <PivotItem Header="Game">
-                 
+
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -30,15 +30,22 @@
                         <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
                     <Grid x:Name="Outer" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2"  Height="700" Width="700">
-              
+
                     </Grid>
-                    
-                    
+
+
                     <!-- Button needs to be placed after the grid otherwise the grid blocks it-->
-                    <Button Grid.Column="0" Grid.Row="0" x:Name="NewGame" Content="New Game" 
-                            RequestedTheme="Dark" 
-                            HorizontalAlignment="left" VerticalAlignment="Center" Margin="30,0,0,0"
-                            Click="NewGame_Click"/>
+                    <Button x:Name="NewGame" Content="New Game" Click="NewGame_Click" Margin="30,0,0,0" Height="80" Width="170" HorizontalAlignment="left" VerticalAlignment="Center" 
+                            Grid.Column="0" Grid.Row="0" 
+                            FontSize="25" FontFamily="Copperplate Gothic Light" FontWeight="Bold" FontStyle="Normal" BorderBrush="Black">
+                        <Button.Background>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FF067259" Offset="1"/>
+                                    <GradientStop Color="#FF97E88F"/>
+                                </LinearGradientBrush>
+                        </Button.Background>
+                     </Button>   
+
 
                     <StackPanel Grid.Column="0" Grid.Row="1"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,0,0,0">
                         <TextBlock x:Name="HighScore" FontSize="22" Foreground="Aqua">
@@ -48,54 +55,82 @@
                             Current Score: 0
                         </TextBlock>
                         <TextBlock Margin="0,100,0,0" Visibility="Collapsed" x:Name="GameOver" FontSize="22" Foreground="Aqua">
-                            You Won!
+                            Game Over!
                         </TextBlock>
                     </StackPanel>
 
-   
+
                 </Grid>
-    
+
             </PivotItem>
 
             <PivotItem Header="Grid Size">
-                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" >
-                    <Button Click="FourByFour_OnClick">4 X 4</Button>
-                    <Button Click="SixBySix_OnClick">6 X 6</Button>
-                    <Button Click="EightByEight_OnClick">8 X 8</Button>
-                </StackPanel>
+                <Grid>
+                    <TextBlock Grid.Column="0" HorizontalAlignment="Center" Text="Enter size of the grid" FontSize="35" Margin="0,100,0,0" FontFamily="Comic Sans MS" FontWeight="Bold" FontStyle="Normal"/>
+
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" >
+                        <Button Click="FourByFour_OnClick" Margin="0,0,0,20" Height="100" Width="300" FontSize="36" FontFamily="Comic Sans MS" FontWeight="Bold" FontStyle="Normal" BorderBrush="Black">
+                            <Button.Background>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FF067259" Offset="1"/>
+                                    <GradientStop Color="#FFAAD0D8"/>
+                                </LinearGradientBrush>
+                            </Button.Background> 4 X 4
+                        </Button>
+
+                        <Button Click="SixBySix_OnClick" Margin="0,0,0,20" Height="100" Width="300" FontSize="36" FontFamily="Comic Sans MS" FontWeight="Bold" FontStyle="Normal" BorderBrush="Black" >
+                            <Button.Background>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FF067259" Offset="1"/>
+                                    <GradientStop Color="#FFAAD0D8"/>
+                                </LinearGradientBrush>
+                            </Button.Background> 6 X 6
+                        </Button>
+
+                        <Button Click="EightByEight_OnClick" Margin="0,0,0,20" Height="100" Width="300" FontSize="36" FontFamily="Comic Sans MS" FontWeight="Bold" FontStyle="Normal" BorderBrush="Black" >
+                            <Button.Background>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FF067259" Offset="1"/>
+                                    <GradientStop Color="#FFAAD0D8"/>
+                                </LinearGradientBrush>
+                            </Button.Background> 8 x 8
+                        </Button>
+                    </StackPanel>
+
+                </Grid>
             </PivotItem>
 
             <PivotItem Header="Game History">
-
-                <ListView x:Name="ListView">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Vertical" Margin="0,0,0,15">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Margin="0,0,10,0">Game Number:</TextBlock>
-                                    <TextBlock Text="{Binding GameNumber}">
-                                    </TextBlock>
-                            </StackPanel>
-                                
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Margin="0,0,10,0">Score:</TextBlock>
-                                    <TextBlock Text="{Binding Score}"></TextBlock>
-                                </StackPanel>
-                                
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Margin="0,0,10,0">Date:</TextBlock>
-                                    <TextBlock Text="{Binding Date}"></TextBlock>
+                <Grid>
+                    <ListView x:Name="ListView" FontSize="24" FontWeight="Bold" >
+                        <ListView.ItemTemplate >
+                            <DataTemplate >
+                                <StackPanel Orientation="Vertical" Margin="0,0,0,15">
                                     
-                                </StackPanel>
-                                
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <TextBlock Margin="0,0,10,0" FontFamily="Comic Sans MS" Foreground="LightGreen" FontWeight="ExtraBold" >Game Number:</TextBlock>
+                                        <TextBlock Text="{Binding GameNumber}">
+                                        </TextBlock>
+                                    </StackPanel>
 
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Margin="0,0,10,0" FontFamily="Comic Sans MS" Foreground="LightGreen" FontWeight="ExtraBold">Score:</TextBlock>
+                                        <TextBlock Text="{Binding Score}"></TextBlock>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Margin="0,0,10,0" FontFamily="Comic Sans MS" Foreground="LightGreen" FontWeight="ExtraBold">Date:</TextBlock>
+                                        <TextBlock Text="{Binding Date}"></TextBlock>
+                                    </StackPanel>
+
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
             </PivotItem>
-   
+  
         </Pivot>
-   
+
     </Grid>
 </Page>

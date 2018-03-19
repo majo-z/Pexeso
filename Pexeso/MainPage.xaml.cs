@@ -254,7 +254,8 @@ namespace Pexeso
                     _gameHistory.Add(new Game(LocalStorage.Load().Count + 1, _currentScore, DateTime.Now));
                     // save all the games to local storage.
                     LocalStorage.Save(_gameHistory);
- 
+
+                    //display Game over message
                     GameOver.Visibility = Visibility.Visible;
 
                     return;
