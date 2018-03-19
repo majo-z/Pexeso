@@ -7,69 +7,73 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid x:Name="rootGrid">
+    <Grid x:Name="RootGrid">
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                 <GradientStop Color="Black" Offset="0"/>
                 <GradientStop Color="Red" Offset="1"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <Pivot RequestedTheme="Dark">
+
+        <Pivot x:Name="MainPivot" RequestedTheme="Dark">
             <PivotItem Header="Game">
                  
-                <!--StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center"-->
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="2*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
+
                     <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid x:Name="Outer" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2"  Height="700" Width="700">
+              
+                    </Grid>
+                
+                    
+                    <!-- Button needs to be placed after the grid otherwise the grid blocks it-->
+                    <Button Grid.Column="0" Grid.Row="0" x:Name="NewGame" Content="New Game" RequestedTheme="Dark" HorizontalAlignment="Center" VerticalAlignment="Center" Click="NewGame_Click"/>
+
+                    <StackPanel Grid.Column="0" Grid.Row="1"  HorizontalAlignment="Center" VerticalAlignment="Top">
                         <TextBlock x:Name="HighScore">
                             High Score: 0
                         </TextBlock>
-                        <TextBlock x:Name="CurrentScore">
+                        <TextBlock x:Name="CurrentScore" FontSize="22" Foreground="Aqua">
                             Current Score: 0
                         </TextBlock>
                     </StackPanel>
-                    
-                    <Grid Grid.Column="1" Grid.ColumnSpan="2" x:Name="GameGrid" Grid.RowSpan="2" Height="700" Width="700"></Grid>
-                    <!-- Button needs to be placed after the grid otherwise the grid blocks it-->
-                    <Button Grid.Column="0" Grid.Row="1" x:Name="GameReset" Content="Reset Game" RequestedTheme="Dark" HorizontalAlignment="Center"  VerticalAlignment="Center"  Click="GameReset_Click" />
+
+   
                 </Grid>
     
-                <!--/-->
             </PivotItem>
             <PivotItem Header="Settings">
-                
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Button Click="FourByFour_OnClick">4 X 4</Button>
+                    <Button Click="SixBySix_OnClick">6 X 6</Button>
+                    <Button Click="EightByEight_OnClick">8 X 8</Button>
+                </StackPanel>
             </PivotItem>
             <PivotItem Header="Game History">
-       
-                    <ListView x:Name="ListView">
-                        <ListView.ItemTemplate>
-                         <DataTemplate>
+
+                <ListView x:Name="ListView">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
                             <StackPanel Orientation="Horizontal">
+                                <!--TextBlock Text="1"></-->
                                 <TextBlock Text="{Binding Date}"></TextBlock>
                                 <TextBlock Text="{Binding Score}"></TextBlock>
                             </StackPanel>
                         </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-          
-       
-            </PivotItem>
-            <PivotItem Header="About">
+                    </ListView.ItemTemplate>
+                </ListView>
 
             </PivotItem>
+   
         </Pivot>
    
-
-        <!--StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
-           
-        </-->
     </Grid>
 </Page>

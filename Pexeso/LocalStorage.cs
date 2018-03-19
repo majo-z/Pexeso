@@ -20,7 +20,7 @@ namespace Pexeso
 
         public static int LoadHighScore()
         {
-            // means no high score has been saved
+            // no high score has been saved
             if (ApplicationData.Current.LocalSettings.Values["highScore"] == null)
             {
                 return 0;
@@ -55,13 +55,10 @@ namespace Pexeso
             //otherwise, there is some information saved in local storage
             string gamesAsStr = ApplicationData.Current.LocalSettings.Values["games"] as string;
 
-            // 10,Saturday-15,Sunday
-
-            string[] individualGames = gamesAsStr.Split(';');
+            string[] individualGames = gamesAsStr.Split(';'); // { 10,Saturday;15,Sunday }
             foreach (var game in individualGames)
             {
-                string[] details = game.Split(',');
-                // { 10 Saturday }
+                string[] details = game.Split(','); // { 10 Saturday }
                 Game g = new Game();  
                 g.Date = details[0];
                 g.Score = Int32.Parse(details[1]);

@@ -34,6 +34,9 @@ namespace Pexeso
         private ObservableCollection<Game> _gameHistory; 
         // keep track of current score
         private int _currentScore;
+
+        private int _gamesCounter;
+
         private Random _rnd = new Random();
         private Rectangle _firstRectangle;
         private Rectangle _secondRectangle;
@@ -50,18 +53,18 @@ namespace Pexeso
              //_gameHistory.Add(new Game(DateTime.Now, 20));
             ListView.ItemsSource = _gameHistory;
             _gridSize = 4;
-            InitGrid(_gridSize);
+            //InitGrid(_gridSize);
             DisplayScores();
             //FillPositions(_gridSize);
             // GeneratePossiblePositions(8);
         }
 
         //crate and draw rectangles
-        private void InitGrid(int size)
+        private void InitGrid(int size, Grid grid)
         {
             for (int i = 0; i < size; i++){
-                GameGrid.RowDefinitions.Add(new RowDefinition());
-                GameGrid.ColumnDefinitions.Add(new ColumnDefinition());
+                grid.RowDefinitions.Add(new RowDefinition());
+                grid.ColumnDefinitions.Add(new ColumnDefinition());
             }
         }
 
@@ -69,7 +72,6 @@ namespace Pexeso
         // create set of all possible positions
         private List<string> GeneratePossiblePositions(int size)
         {
-
             var list = new List<string>();
 
             for (var row = 0; row < size; row++)
@@ -78,7 +80,6 @@ namespace Pexeso
                 {
                     list.Add(row + "_" + col);
                 }
-
             }
 
             //shuffle list
@@ -106,16 +107,16 @@ namespace Pexeso
             return rect;
         }
 
-        private void AddRectangleToGrid(Rectangle rect, int row, int col)
+        private void AddRectangleToGrid(Rectangle rect, int row, int col, Grid grid)
         {
             rect.SetValue(Grid.RowProperty, row);
             rect.SetValue(Grid.ColumnProperty, col);
-            rect.Width = GameGrid.Width / _gridSize;
-            rect.Height = GameGrid.Height / _gridSize;
-            GameGrid.Children.Add(rect);
+            rect.Width = grid.Width / _gridSize;
+            rect.Height = grid.Height / _gridSize;
+            grid.Children.Add(rect);
         }
 
-        private void FillPositions(int size)
+        private void FillPositions(int size, Grid grid)
         {
             // get all possible positions
       
@@ -124,11 +125,9 @@ namespace Pexeso
             while (allPositions.Count > 0) // keep going until no positions are left
             {
               
-                
-
                 // https://stackoverflow.com/questions/2706500/how-do-i-generate-a-random-int-number-in-c
                 
-                int imageNum = _rnd.Next(1, 62);   // creates a number between 1 and 61
+                int imageNum = _rnd.Next(1, 62); // creates a number between 1 and 61
 
                 // ensure that there is only one pair of each image.
                 while (usedNumbers.Contains(imageNum))
@@ -161,39 +160,29 @@ namespace Pexeso
                 rect1.Tapped += Rectangle_Tapped;
                 rect2.Tapped += Rectangle_Tapped;
 
-
-                AddRectangleToGrid(rect1, row1, col1);
-                AddRectangleToGrid(rect2, row2, col2);
+                AddRectangleToGrid(rect1, row1, col1, grid);
+                AddRectangleToGrid(rect2, row2, col2, grid);
                 // place them on the grid
 
             }
 
             // calculate the total number of tiles that are in the grid.
             _totalTilesLeft = _gridSize * _gridSize;
-
-        }
-
-        //prevents filckering old images when reset the game(clear caches)
-        private void ResetImages()
-        {
-            GameGrid.RowDefinitions.Clear(); // delete all the rows
-            GameGrid.ColumnDefinitions.Clear(); // delete all the columns
-            //create new grit size and fill the positions with new tiles
-            InitGrid(_gridSize);
-            FillPositions(_gridSize);
-
-            GameGrid.RowDefinitions.Clear(); // delete all the rows
-            GameGrid.ColumnDefinitions.Clear(); // delete all the columns
-            //create new grit size and fill the positions with new tiles
-            InitGrid(_gridSize);
-            FillPositions(_gridSize);
         }
 
 
         //game reset button
-        private void GameReset_Click(object sender, RoutedEventArgs e)
+        private void NewGame_Click(object sender, RoutedEventArgs e)
         {
-            ResetImages();
+  
+            Outer.Children.Clear(); // delete inner grid that contains the images
+
+            Grid gameGrid = new Grid();
+            InitGrid(_gridSize, gameGrid);
+            FillPositions(_gridSize, gameGrid);
+            Outer.Children.Add(gameGrid);
+
+            // GameGrid.Children.Add();
             _clickNo = 0;
             _currentScore = 0;
             CurrentScore.Text = "Current Score: " + _currentScore;
@@ -267,7 +256,6 @@ namespace Pexeso
                     LocalStorage.Save(_gameHistory);
                     // reset grid, display high score
 
-
                     return;
                 }
 
@@ -313,9 +301,32 @@ namespace Pexeso
             // if they're not the same. Thty stay up
             // on a third click, if they were the same, the stay up -> remove event handler
             // if they weren't the same, they go down. -> keep event handler
-
+            _gamesCounter++;
             DisplayScores();
 
         }
+
+        /*
+         * Event handles that get called when the user selects a new grid size.
+         */
+        private void FourByFour_OnClick(object sender, RoutedEventArgs e)
+        {
+            _gridSize = 4;
+            MainPivot.SelectedIndex = 0;
+            NewGame_Click(null, null); // calling the NewGame_Click event handler
+        }
+        private void SixBySix_OnClick(object sender, RoutedEventArgs e)
+        {
+            _gridSize = 6;
+            MainPivot.SelectedIndex = 0;
+            NewGame_Click(null, null);
+        }
+        private void EightByEight_OnClick(object sender, RoutedEventArgs e)
+        {
+            _gridSize = 8;
+            MainPivot.SelectedIndex = 0;
+            NewGame_Click(null, null);
+        }
+      
     }
 }

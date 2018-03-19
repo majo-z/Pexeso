@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 namespace Pexeso
 {
     class Game
-    {
+    {   //https://msdn.microsoft.com/en-us/library/system.datetime.hour(v=vs.110).aspx
+        //date formatting
         public string Date { get; set; }
         public int Score { get; set; }
 
