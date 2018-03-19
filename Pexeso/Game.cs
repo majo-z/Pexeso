@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 namespace Pexeso
 {
     class Game
-    {   //https://msdn.microsoft.com/en-us/library/system.datetime.hour(v=vs.110).aspx
-        //date formatting
+    {
         public string Date { get; set; }
         public int Score { get; set; }
 
@@ -16,7 +15,7 @@ namespace Pexeso
 
         public String ToLocalStorageFormat()
         {
-            return GameNumber + "," + Date + "," + Score;
+            return GameNumber + "," + Score + "," + Date;
         }
 
         public Game()
@@ -24,11 +23,12 @@ namespace Pexeso
 
         }
 
-        public Game(DateTime date, int score, int gemNo)
+        public Game(int gameNo, int score, DateTime date)
         {
-            GameNumber = gemNo;
-            Date = date.DayOfWeek + " the "  +date.Day + "th";
+            GameNumber = gameNo;           
             Score = score;
+            //date formatting...https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings
+            Date = date.ToString("dd-MMM-yyyy") + " - " + date.ToString("H:mm:ss");
         }
 
     }

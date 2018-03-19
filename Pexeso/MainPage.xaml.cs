@@ -250,9 +250,8 @@ namespace Pexeso
 
                     DisplayScores();
                    
-                    // adding a game to the game history observable collection will make it appear in the game history page.
-                  
-                    _gameHistory.Add(new Game(DateTime.Now, _currentScore, LocalStorage.Load().Count + 1));
+                    // adding a game to the game history observable collection will make it appear in the game history page.                 
+                    _gameHistory.Add(new Game(LocalStorage.Load().Count + 1, _currentScore, DateTime.Now));
                     // save all the games to local storage.
                     LocalStorage.Save(_gameHistory);
  

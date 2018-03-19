@@ -35,10 +35,13 @@
                     
                     
                     <!-- Button needs to be placed after the grid otherwise the grid blocks it-->
-                    <Button Grid.Column="0" Grid.Row="0" x:Name="NewGame" Content="New Game" RequestedTheme="Dark" HorizontalAlignment="Center" VerticalAlignment="Center" Click="NewGame_Click"/>
+                    <Button Grid.Column="0" Grid.Row="0" x:Name="NewGame" Content="New Game" 
+                            RequestedTheme="Dark" 
+                            HorizontalAlignment="left" VerticalAlignment="Center" Margin="30,0,0,0"
+                            Click="NewGame_Click"/>
 
-                    <StackPanel Grid.Column="0" Grid.Row="1"  HorizontalAlignment="Center" VerticalAlignment="Top">
-                        <TextBlock x:Name="HighScore">
+                    <StackPanel Grid.Column="0" Grid.Row="1"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,0,0,0">
+                        <TextBlock x:Name="HighScore" FontSize="22" Foreground="Aqua">
                             High Score: 0
                         </TextBlock>
                         <TextBlock x:Name="CurrentScore" FontSize="22" Foreground="Aqua">
@@ -53,19 +56,21 @@
                 </Grid>
     
             </PivotItem>
-            <PivotItem Header="Settings">
-                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+
+            <PivotItem Header="Grid Size">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" >
                     <Button Click="FourByFour_OnClick">4 X 4</Button>
                     <Button Click="SixBySix_OnClick">6 X 6</Button>
                     <Button Click="EightByEight_OnClick">8 X 8</Button>
                 </StackPanel>
             </PivotItem>
+
             <PivotItem Header="Game History">
 
                 <ListView x:Name="ListView">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Vertical" Margin="0,0,0,15">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Margin="0,0,10,0">Game Number:</TextBlock>
                                     <TextBlock Text="{Binding GameNumber}">

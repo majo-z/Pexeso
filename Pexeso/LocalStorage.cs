@@ -61,8 +61,9 @@ namespace Pexeso
                 string[] details = game.Split(','); // { 10 Saturday }
                 Game g = new Game();
                 g.GameNumber = Int32.Parse(details[0]);
-                g.Date = details[1];
-                g.Score = Int32.Parse(details[2]);
+                g.Score = Int32.Parse(details[1]);
+                g.Date = details[2];
+                
                 games.Add(g);
             }
 
