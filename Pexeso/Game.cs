@@ -12,9 +12,11 @@ namespace Pexeso
         public string Date { get; set; }
         public int Score { get; set; }
 
+        public int GameNumber { get; set; }
+
         public String ToLocalStorageFormat()
         {
-            return Date+ "," + Score;
+            return GameNumber + "," + Date + "," + Score;
         }
 
         public Game()
@@ -22,9 +24,9 @@ namespace Pexeso
 
         }
 
-        public Game(DateTime date, int score)
+        public Game(DateTime date, int score, int gemNo)
         {
-         
+            GameNumber = gemNo;
             Date = date.DayOfWeek + " the "  +date.Day + "th";
             Score = score;
         }

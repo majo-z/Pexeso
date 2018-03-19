@@ -15,7 +15,7 @@
             </LinearGradientBrush>
         </Grid.Background>
 
-        <Pivot x:Name="MainPivot" RequestedTheme="Dark">
+        <Pivot x:Name="MainPivot" SelectedIndex="1" RequestedTheme="Dark">
             <PivotItem Header="Game">
                  
                 <Grid>
@@ -32,7 +32,7 @@
                     <Grid x:Name="Outer" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2"  Height="700" Width="700">
               
                     </Grid>
-                
+                    
                     
                     <!-- Button needs to be placed after the grid otherwise the grid blocks it-->
                     <Button Grid.Column="0" Grid.Row="0" x:Name="NewGame" Content="New Game" RequestedTheme="Dark" HorizontalAlignment="Center" VerticalAlignment="Center" Click="NewGame_Click"/>
@@ -43,6 +43,9 @@
                         </TextBlock>
                         <TextBlock x:Name="CurrentScore" FontSize="22" Foreground="Aqua">
                             Current Score: 0
+                        </TextBlock>
+                        <TextBlock Margin="0,100,0,0" Visibility="Collapsed" x:Name="GameOver" FontSize="22" Foreground="Aqua">
+                            You Won!
                         </TextBlock>
                     </StackPanel>
 
@@ -62,10 +65,24 @@
                 <ListView x:Name="ListView">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <!--TextBlock Text="1"></-->
-                                <TextBlock Text="{Binding Date}"></TextBlock>
-                                <TextBlock Text="{Binding Score}"></TextBlock>
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Margin="0,0,10,0">Game Number:</TextBlock>
+                                    <TextBlock Text="{Binding GameNumber}">
+                                    </TextBlock>
+                            </StackPanel>
+                                
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Margin="0,0,10,0">Score:</TextBlock>
+                                    <TextBlock Text="{Binding Score}"></TextBlock>
+                                </StackPanel>
+                                
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Margin="0,0,10,0">Date:</TextBlock>
+                                    <TextBlock Text="{Binding Date}"></TextBlock>
+                                    
+                                </StackPanel>
+                                
                             </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>

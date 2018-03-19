@@ -47,12 +47,12 @@ namespace Pexeso
         {
             InitializeComponent();
            
-             // ApplicationData.Current.LocalSettings.Values["games"] = null;//enable to wipe out the local storage
+             //ApplicationData.Current.LocalSettings.Values["games"] = null;//enable to wipe out the local storage
             _gameHistory = LocalStorage.Load(); // read from local storage and populate the observable collection.
              //_gameHistory.Add(new Game(DateTime.Now, 10));
              //_gameHistory.Add(new Game(DateTime.Now, 20));
             ListView.ItemsSource = _gameHistory;
-            _gridSize = 4;
+            _gridSize = 2;
             //InitGrid(_gridSize);
             DisplayScores();
             //FillPositions(_gridSize);
@@ -174,7 +174,8 @@ namespace Pexeso
         //game reset button
         private void NewGame_Click(object sender, RoutedEventArgs e)
         {
-  
+
+            GameOver.Visibility = Visibility.Collapsed;//hide won message when new game started
             Outer.Children.Clear(); // delete inner grid that contains the images
 
             Grid gameGrid = new Grid();
@@ -182,7 +183,6 @@ namespace Pexeso
             FillPositions(_gridSize, gameGrid);
             Outer.Children.Add(gameGrid);
 
-            // GameGrid.Children.Add();
             _clickNo = 0;
             _currentScore = 0;
             CurrentScore.Text = "Current Score: " + _currentScore;
@@ -249,12 +249,14 @@ namespace Pexeso
                     }
 
                     DisplayScores();
-                    // TODO handle end of game
+                   
                     // adding a game to the game history observable collection will make it appear in the game history page.
-                    _gameHistory.Add(new Game(DateTime.Now, _currentScore));
+                  
+                    _gameHistory.Add(new Game(DateTime.Now, _currentScore, LocalStorage.Load().Count + 1));
                     // save all the games to local storage.
                     LocalStorage.Save(_gameHistory);
-                    // reset grid, display high score
+ 
+                    GameOver.Visibility = Visibility.Visible;
 
                     return;
                 }
@@ -301,7 +303,6 @@ namespace Pexeso
             // if they're not the same. Thty stay up
             // on a third click, if they were the same, the stay up -> remove event handler
             // if they weren't the same, they go down. -> keep event handler
-            _gamesCounter++;
             DisplayScores();
 
         }
