@@ -31,13 +31,11 @@ namespace Pexeso
     {
         // Observable collection holds game objects that the ListView displays in the Game History page
         // https://www.c-sharpcorner.com/UploadFile/5ef5aa/binding-collection-to-listview-control-in-uwp-explained/
-        private ObservableCollection<Game> _gameHistory; 
+        private readonly ObservableCollection<Game> _gameHistory; 
         // keep track of current score
         private int _currentScore;
 
-        private int _gamesCounter;
-
-        private Random _rnd = new Random();
+        private readonly Random _rnd = new Random();
         private Rectangle _firstRectangle;
         private Rectangle _secondRectangle;
         private int _clickNo;
@@ -52,7 +50,7 @@ namespace Pexeso
              //_gameHistory.Add(new Game(DateTime.Now, 10));
              //_gameHistory.Add(new Game(DateTime.Now, 20));
             ListView.ItemsSource = _gameHistory;
-            _gridSize = 2;
+            _gridSize = 4;
             //InitGrid(_gridSize);
             DisplayScores();
             //FillPositions(_gridSize);
@@ -60,9 +58,9 @@ namespace Pexeso
         }
 
         //crate and draw rectangles
-        private void InitGrid(int size, Grid grid)
+        private static void InitGrid(int size, Grid grid)
         {
-            for (int i = 0; i < size; i++){
+            for (var i = 0; i < size; i++){
                 grid.RowDefinitions.Add(new RowDefinition());
                 grid.ColumnDefinitions.Add(new ColumnDefinition());
             }
@@ -70,7 +68,7 @@ namespace Pexeso
 
         
         // create set of all possible positions
-        private List<string> GeneratePossiblePositions(int size)
+        private static IEnumerable<string> GeneratePossiblePositions(int size)
         {
             var list = new List<string>();
 
@@ -89,15 +87,14 @@ namespace Pexeso
             var shuffledList = list.OrderBy(x => random.Next()).ToList();
 
             return shuffledList;
-
         }
         
-        private Rectangle GenerateRectangle(int imageNum, string tag)
+        private static Rectangle GenerateRectangle(int imageNum, string tag)
         {
-            Rectangle rect = new Rectangle();
-            ImageBrush brush = new ImageBrush(); // imagebrush is an object
-            Uri uri = new Uri("ms-appx:///Assets/Images/" + imageNum + ".png", UriKind.RelativeOrAbsolute);
-            BitmapImage bitmap = new BitmapImage(uri);
+            var rect = new Rectangle();
+            var brush = new ImageBrush(); // imagebrush is an object
+            var uri = new Uri("ms-appx:///Assets/Images/" + imageNum + ".png", UriKind.RelativeOrAbsolute);
+            var bitmap = new BitmapImage(uri);
 
             brush.ImageSource = bitmap;
 
@@ -107,7 +104,7 @@ namespace Pexeso
             return rect;
         }
 
-        private void AddRectangleToGrid(Rectangle rect, int row, int col, Grid grid)
+        private void AddRectangleToGrid(FrameworkElement rect, int row, int col, Panel grid)
         {
             rect.SetValue(Grid.RowProperty, row);
             rect.SetValue(Grid.ColumnProperty, col);
@@ -116,7 +113,7 @@ namespace Pexeso
             grid.Children.Add(rect);
         }
 
-        private void FillPositions(int size, Grid grid)
+        private void FillPositions(int size, Panel grid)
         {
             // get all possible positions
       
@@ -127,12 +124,12 @@ namespace Pexeso
               
                 // https://stackoverflow.com/questions/2706500/how-do-i-generate-a-random-int-number-in-c
                 
-                int imageNum = _rnd.Next(1, 62); // creates a number between 1 and 61
+                var imageNum = _rnd.Next(1, 62); // creates a number between 1 and 61
 
                 // ensure that there is only one pair of each image.
                 while (usedNumbers.Contains(imageNum))
                 {
-                    imageNum = _rnd.Next(1, 62);
+                    imageNum = _rnd.Next(2, 63);
                 }
 
                 usedNumbers.Add(imageNum);
@@ -189,22 +186,22 @@ namespace Pexeso
 
         }
 
-        private void ToggleImage(Rectangle rect)
+        private static void ToggleImage(Shape rect)
         {
-            ImageBrush brush = new ImageBrush(); // imagebrush is an object
-            Uri uri = new Uri("ms-appx:///Assets/Images/" + rect.Tag.ToString() + ".png", UriKind.RelativeOrAbsolute);
-            BitmapImage bitmap = new BitmapImage(uri);
+            var brush = new ImageBrush(); // imagebrush is an object
+            var uri = new Uri("ms-appx:///Assets/Images/" + rect.Tag + ".png", UriKind.RelativeOrAbsolute);
+            var bitmap = new BitmapImage(uri);
 
             brush.ImageSource = bitmap;
 
             rect.Fill = brush;
         }
 
-        private void SetToDefault(Rectangle rect)
+        private static void SetToDefault(Shape rect)
         {
-            ImageBrush brush = new ImageBrush(); // imagebrush is an object
-            Uri uri = new Uri("ms-appx:///Assets/Images/1.png", UriKind.RelativeOrAbsolute);
-            BitmapImage bitmap = new BitmapImage(uri);
+            var brush = new ImageBrush(); // imagebrush is an object
+            var uri = new Uri("ms-appx:///Assets/Images/1.png", UriKind.RelativeOrAbsolute);
+            var bitmap = new BitmapImage(uri);
 
             brush.ImageSource = bitmap;
 
@@ -271,7 +268,7 @@ namespace Pexeso
                 bool rectanglesMatch = _firstRectangle.Tag.ToString() == _secondRectangle.Tag.ToString();
                 if (rectanglesMatch)
                 {
-                    // remove the evant handler so it can't be clicked again
+                    // remove the event handler so it can't be clicked again
                     _firstRectangle.Tapped -= Rectangle_Tapped;
                     _secondRectangle.Tapped -= Rectangle_Tapped;
                     _totalTilesLeft -= 2; // we have 2 fewer tiles.
