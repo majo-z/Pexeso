@@ -29,10 +29,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
-                    <Grid x:Name="Outer" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2" Height="800" Width="800" Margin="10">
-
-                    </Grid>
-
+                    <Grid x:Name="Outer" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2" Height="700" Width="700" Margin="10"></Grid>
 
                     <!-- Button needs to be placed after the grid otherwise the grid blocks it-->
                     <Button x:Name="NewGame" Content="New Game" Click="NewGame_Click" Margin="30,0,0,0" Height="80" Width="200" HorizontalAlignment="left" VerticalAlignment="Center" 

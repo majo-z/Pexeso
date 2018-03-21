@@ -1,23 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Dynamic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Storage;
-using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Shapes;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -89,11 +79,11 @@ namespace Pexeso
             return shuffledList;
         }
         
-        private static Rectangle GenerateRectangle(int imageNum, string tag)
+        private static Rectangle GenerateRectangle(int num, string tag)
         {
             var rect = new Rectangle();
             var brush = new ImageBrush(); // imagebrush is an object
-            var uri = new Uri("ms-appx:///Assets/Images/" + imageNum + ".png", UriKind.RelativeOrAbsolute);
+            var uri = new Uri("ms-appx:///Assets/Images/" + num + ".png", UriKind.RelativeOrAbsolute);
             var bitmap = new BitmapImage(uri);
 
             brush.ImageSource = bitmap;
@@ -129,15 +119,15 @@ namespace Pexeso
                 // ensure that there is only one pair of each image.
                 while (usedNumbers.Contains(imageNum))
                 {
-                    imageNum = _rnd.Next(2, 63);
+                    imageNum = _rnd.Next(1, 62);
                 }
 
                 usedNumbers.Add(imageNum);
 
                 // create 2 rectanges and connect them
-                var rect1 = GenerateRectangle(1, imageNum.ToString());
+                var rect1 = GenerateRectangle(imageNum, imageNum.ToString());
 
-                var rect2 = GenerateRectangle(1, imageNum.ToString());
+                var rect2 = GenerateRectangle(imageNum, imageNum.ToString());
            
 
                 // take two off the top
@@ -169,7 +159,7 @@ namespace Pexeso
 
 
         //game reset button
-        private void NewGame_Click(object sender, RoutedEventArgs e)
+        private async void NewGame_Click(object sender, RoutedEventArgs e)
         {
 
             GameOver.Visibility = Visibility.Collapsed;//hide won message when new game started
@@ -179,6 +169,31 @@ namespace Pexeso
             InitGrid(_gridSize, gameGrid);
             FillPositions(_gridSize, gameGrid);
             Outer.Children.Add(gameGrid);
+
+            var delayTime = 0;
+            switch (_gridSize)
+            {
+                case 4:
+                    delayTime = 3000;
+                    break;
+                case 6:
+                    delayTime = 6000;
+                    break;
+                case 8:
+                    delayTime = 9000;
+                    break;
+                default: throw new ArgumentException("grid size should be 4 6 or 8");
+            }
+            //causes the delay to allow the user to see the images before they are flipped
+            await Task.Delay(delayTime);
+
+            //set every rectangle image as question mark
+            var children = gameGrid.Children;
+            foreach (var child in children)
+            {
+                var rect = child as Rectangle;
+                SetToDefault(rect);
+            }
 
             _clickNo = 0;
             _currentScore = 0;
@@ -200,7 +215,7 @@ namespace Pexeso
         private static void SetToDefault(Shape rect)
         {
             var brush = new ImageBrush(); // imagebrush is an object
-            var uri = new Uri("ms-appx:///Assets/Images/1.png", UriKind.RelativeOrAbsolute);
+            var uri = new Uri("ms-appx:///Assets/Images/100.png", UriKind.RelativeOrAbsolute);
             var bitmap = new BitmapImage(uri);
 
             brush.ImageSource = bitmap;
