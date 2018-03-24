@@ -12,6 +12,11 @@ namespace Pexeso
     // LocalStorage is a class that provides Save/Load helper methods to interact with the system storage.
     class LocalStorage
     {
+        public static void ClearGames()
+        {
+            ApplicationData.Current.LocalSettings.Values["games"] =null;
+        }
+
         // save the high score
         public static void SaveHighScore(int highScore)
         {
@@ -38,7 +43,11 @@ namespace Pexeso
             }
             // http://geekswithblogs.net/hmloo/archive/2012/04/08/how-to-remove-the-last-character-from-stringbuilder.aspx
             // remove the last character which is a ";" this results in an extra game when there is just one.
-            sb.Length--;
+            if (sb.Length > 1)
+            {
+                sb.Length--;
+            }
+         
             ApplicationData.Current.LocalSettings.Values["games"] = sb.ToString();
         }
 
@@ -62,7 +71,8 @@ namespace Pexeso
                 Game g = new Game();
                 g.GameNumber = Int32.Parse(details[0]);
                 g.Score = Int32.Parse(details[1]);
-                g.Date = details[2];
+                g.GridSize = Int32.Parse(details[2]);
+                g.Date = details[3];
                 
                 games.Add(g);
             }

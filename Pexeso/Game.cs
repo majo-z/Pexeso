@@ -13,9 +13,11 @@ namespace Pexeso
 
         public int GameNumber { get; set; }
 
+        public int GridSize { get; set; }
+
         public String ToLocalStorageFormat()
         {
-            return GameNumber + "," + Score + "," + Date;
+            return GameNumber + "," + Score + "," + GridSize +  "," + Date;
         }
 
         public Game()
@@ -23,10 +25,11 @@ namespace Pexeso
 
         }
 
-        public Game(int gameNo, int score, DateTime date)
+        public Game(int gameNo, int score, int gridSize, DateTime date)
         {
             GameNumber = gameNo;           
             Score = score;
+            GridSize = gridSize;
             //date formatting...https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings
             Date = date.ToString("dd-MMM-yyyy") + " - " + date.ToString("H:mm:ss");
         }

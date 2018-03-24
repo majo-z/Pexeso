@@ -34,7 +34,7 @@ namespace Pexeso
         public MainPage()
         {
             InitializeComponent();
-           
+           //LocalStorage.ClearGames();
              //ApplicationData.Current.LocalSettings.Values["games"] = null;//enable to wipe out the local storage
             _gameHistory = LocalStorage.Load(); // read from local storage and populate the observable collection.
              //_gameHistory.Add(new Game(DateTime.Now, 10));
@@ -263,7 +263,7 @@ namespace Pexeso
                     DisplayScores();
                    
                     // adding a game to the game history observable collection will make it appear in the game history page.                 
-                    _gameHistory.Add(new Game(LocalStorage.Load().Count + 1, _currentScore, DateTime.Now));
+                    _gameHistory.Add(new Game(LocalStorage.Load().Count + 1, _currentScore, _gridSize, DateTime.Now)); 
                     // save all the games to local storage.
                     LocalStorage.Save(_gameHistory);
 
@@ -311,10 +311,7 @@ namespace Pexeso
                 _clickNo = 1;
             }
 
-            // if they're the same. They stay up
-            // if they're not the same. Thty stay up
-            // on a third click, if they were the same, the stay up -> remove event handler
-            // if they weren't the same, they go down. -> keep event handler
+        
             DisplayScores();
 
         }
@@ -340,6 +337,14 @@ namespace Pexeso
             MainPivot.SelectedIndex = 0;
             NewGame_Click(null, null);
         }
-      
+
+        private void ResetHistory_OnClick(object sender, RoutedEventArgs e)
+        {
+            
+            LocalStorage.ClearGames(); // delete from local storage
+            _gameHistory.Clear();
+
+
+        }
     }
 }

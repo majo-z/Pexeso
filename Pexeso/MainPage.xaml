@@ -103,6 +103,10 @@
 
             <PivotItem Header="Game History">
                 <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
                     <ListView x:Name="ListView">
                         <ListView.ItemTemplate >
                             <DataTemplate >
@@ -120,6 +124,11 @@
                                     </StackPanel>
 
                                     <StackPanel Orientation="Horizontal">
+                                        <TextBlock Margin="0,0,5,0" FontSize="20" FontFamily="Comic Sans MS" Foreground="LightGreen" FontWeight="ExtraBold">Grid Size:</TextBlock>
+                                        <TextBlock FontSize="20" FontWeight="SemiBold" Text="{Binding GridSize}"></TextBlock>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal">
                                         <TextBlock Margin="0,0,5,0" FontSize="20" FontFamily="Comic Sans MS" Foreground="LightGreen" FontWeight="ExtraBold">Date:</TextBlock>
                                         <TextBlock FontSize="20" FontWeight="SemiBold" Text="{Binding Date}"></TextBlock>
                                     </StackPanel>
@@ -128,6 +137,16 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
+                    <Button  x:Name="ResetHistory" Click="ResetHistory_OnClick"  Content="Reset History" Margin="30,0,0,0" Height="80" Width="200" HorizontalAlignment="left" VerticalAlignment="Center" 
+                            Grid.Column="1" Grid.Row="0" FontSize="25" FontFamily="Copperplate Gothic Light" FontWeight="Bold" BorderBrush="Black">
+                        <Button.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FF067259" Offset="1"/>
+                                <GradientStop Color="#FF35618D"/>
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+
                 </Grid>
             </PivotItem>
   
