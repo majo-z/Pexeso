@@ -100,6 +100,7 @@ namespace Pexeso
             rect.Width = grid.Width / _gridSize;
             rect.Height = grid.Height / _gridSize;
             grid.Children.Add(rect);
+
         }
 
         private void FillPositions(int size, Panel grid)
@@ -113,12 +114,12 @@ namespace Pexeso
               
                 // https://stackoverflow.com/questions/2706500/how-do-i-generate-a-random-int-number-in-c
                 
-                var imageNum = _rnd.Next(1, 62); // creates a number between 1 and 61
+                var imageNum = _rnd.Next(1, 61); // creates a number between 1 and 61
 
                 // ensure that there is only one pair of each image.
                 while (usedNumbers.Contains(imageNum))
                 {
-                    imageNum = _rnd.Next(1, 62);
+                    imageNum = _rnd.Next(1, 61);
                 }
 
                 usedNumbers.Add(imageNum);
@@ -143,8 +144,8 @@ namespace Pexeso
                 int row2 = Int32.Parse(row2Col2[0]);
                 int col2 = Int32.Parse(row2Col2[1]);
 
-                rect1.Tapped += Rectangle_Tapped;
-                rect2.Tapped += Rectangle_Tapped;
+                //rect1.Tapped += Rectangle_Tapped; //==============================================================================
+                //rect2.Tapped += Rectangle_Tapped;//===========================================================================================================
 
                 AddRectangleToGrid(rect1, row1, col1, grid);
                 AddRectangleToGrid(rect2, row2, col2, grid);
@@ -157,7 +158,7 @@ namespace Pexeso
         }
 
 
-        //game reset button
+        //New game button
         private async void NewGame_Click(object sender, RoutedEventArgs e)
         {
 
@@ -170,7 +171,7 @@ namespace Pexeso
             Outer.Children.Add(gameGrid);
             CurrentScore.Text = "Game Score: 0";
 
-            var delayTime = 0;
+            int delayTime;
             switch (_gridSize)
             {
                 case 4:
@@ -182,9 +183,11 @@ namespace Pexeso
                 case 8:
                     delayTime = 12000;
                     break;
-                default: throw new ArgumentException("grid size should be 4 6 or 8");
+                default: throw new ArgumentException("grid size should be 4, 6 or 8");
             }
+
             //causes the delay to allow the user to see the images before they are flipped
+            //https://msdn.microsoft.com/en-us/library/hh194873(v=vs.110).aspx
             await Task.Delay(delayTime);
 
             //set every rectangle image as question mark
@@ -193,6 +196,7 @@ namespace Pexeso
             {
                 var rect = child as Rectangle;
                 SetToDefault(rect);
+                rect.Tapped += Rectangle_Tapped;//=============================================================================================================
             }
 
             _clickNo = 0;
@@ -309,13 +313,10 @@ namespace Pexeso
                 ToggleImage(rect); // display the new image
                 _firstRectangle = rect; // save it
                 _clickNo = 1;
-            }
-
-        
+            }      
             DisplayScores();
 
         }
-
         /*
          * Event handles that get called when the user selects a new grid size.
          */

@@ -193,7 +193,7 @@
                     </ListView>
 
                     <Button x:Name="ResetHistory" Click="ResetHistory_OnClick" Content="Reset History" Height="80" Width="300" HorizontalAlignment="Left" VerticalAlignment="Top" 
-                            Grid.Column="1" Grid.Row="0" FontSize="28" FontFamily="Copperplate Gothic Light" FontWeight="ExtraBold" BorderBrush="NavajoWhite" Margin="0,20,0,0" >
+                            Grid.Column="1" Grid.Row="0" FontSize="28" FontFamily="Copperplate Gothic Light" FontWeight="ExtraBold" BorderBrush="NavajoWhite" Margin="10,20,0,0" >
                         <Button.Background>
                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                 <GradientStop Color="#FF067259" Offset="1"/>
@@ -207,7 +207,7 @@
                     </Button>
 
                     <StackPanel x:Name="ResetButtons" Orientation="Horizontal" Visibility="Collapsed" Height="80" Width="300"
-                                Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0, 110, 0,0">
+                                Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10, 110, 0,0">
 
                         <Button x:Name="YesButton" Click="YesButton_OnClick" Height="60" Width="140" Background="#00b300" BorderBrush="NavajoWhite"
                                 FontSize="25" FontFamily="Copperplate Gothic Light" FontWeight="ExtraBold">
