@@ -14,7 +14,8 @@ namespace Pexeso
     {
         public static void ClearGames()
         {
-            ApplicationData.Current.LocalSettings.Values["games"] =null;
+            ApplicationData.Current.LocalSettings.Values["games"] = null;
+            ApplicationData.Current.LocalSettings.Values["highScore"] = null;
         }
 
         // save the high score

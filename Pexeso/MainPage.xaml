@@ -29,11 +29,28 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
+                    
+                    <!-- Game grid generated inside Outer as child-->
                     <Grid x:Name="Outer" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2" Height="700" Width="700" Margin="10"></Grid>
 
+                    <TextBlock Grid.Row="0" Grid.Column="0" FontFamily="Comic Sans MS" FontSize="70" FontWeight="ExtraBold" Margin="10,0,0,0">
+                        <TextBlock.Foreground>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FF16F7E3"/>
+                                <GradientStop Color="#FF3B73EC" Offset="0.836"/>
+                                <GradientStop Color="#FFE3FF32" Offset="0.56"/>
+                                <GradientStop Color="#FEFD2F1B" Offset="0.275"/>
+                            </LinearGradientBrush>
+                        </TextBlock.Foreground>Match2</TextBlock>
+
                     <!-- Button needs to be placed after the grid otherwise the grid blocks it-->
-                    <Button x:Name="NewGame" Content="New Game" Click="NewGame_Click" Margin="30,0,0,0" Height="80" Width="200" HorizontalAlignment="left" VerticalAlignment="Center" 
-                         Grid.Column="0" Grid.Row="0" FontSize="25" FontFamily="Copperplate Gothic Light" FontWeight="Bold" BorderBrush="Black">
+                    <Button x:Name="NewGame" Content="New Game" Click="NewGame_Click" Margin="20,130,0,0" Height="80" Width="230" HorizontalAlignment="Left" VerticalAlignment="Center"
+                         Grid.Column="0" Grid.Row="0" FontSize="28" FontFamily="Copperplate Gothic Light" FontWeight="ExtraBold" BorderBrush="NavajoWhite">
+
+                        <Button.Foreground >
+                            <SolidColorBrush Color="Black" />
+                        </Button.Foreground>
+
                         <Button.Background>
                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                 <GradientStop Color="#FF067259" Offset="1"/>
@@ -43,19 +60,39 @@
                     </Button>
 
 
-                    <StackPanel Grid.Column="0" Grid.Row="1"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,0,0,0">
+                    <StackPanel Grid.Column="0" Grid.Row="1"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,40,0,0">
 
-                        <TextBlock x:Name="HighScore" FontSize="30" Foreground="LightGreen" FontWeight="Bold" >
+                        <TextBlock x:Name="HighScore" FontSize="30" Foreground="LightGreen" FontWeight="ExtraBold" Margin="0,0,0,15">
                             High Score: 0
                         </TextBlock>
 
-                        <TextBlock x:Name="CurrentScore" FontSize="30" Foreground="LightGreen" FontWeight="Bold" >
-                            Current Score: 0
+                        <TextBlock x:Name="CurrentScore" FontSize="30" Foreground="LightGreen" FontWeight="ExtraBold" >
+                            Game Score: 0
                         </TextBlock>
 
-                        <TextBlock x:Name="GameOver" Visibility="Collapsed" Margin="0,100,0,0" FontFamily="Comic Sans MS" FontSize="40" Foreground="LightGreen" FontWeight="Bold" >
-                            Game Over!
-                        </TextBlock>
+                        <StackPanel x:Name="GameOver" Visibility="Collapsed" HorizontalAlignment="Center" Margin="0,60,0,0" >
+
+                            <TextBlock FontFamily="Comic Sans MS" FontSize="80" FontWeight="ExtraBold" Margin="0,0,0,-20">
+                                <TextBlock.Foreground>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FF16F7E3"/>
+                                        <GradientStop Color="#FF3B73EC" Offset="0.836"/>
+                                        <GradientStop Color="#FFE3FF32" Offset="0.56"/>
+                                        <GradientStop Color="#FEFD2F1B" Offset="0.275"/>
+                                    </LinearGradientBrush>
+                                </TextBlock.Foreground>Game</TextBlock>
+
+                            <TextBlock FontFamily="Comic Sans MS" FontSize="80" FontWeight="ExtraBold">
+                                <TextBlock.Foreground>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FF16F7E3"/>
+                                        <GradientStop Color="#FF3B73EC" Offset="0.836"/>
+                                        <GradientStop Color="#FFE3FF32" Offset="0.56"/>
+                                        <GradientStop Color="#FEFD2F1B" Offset="0.275"/>
+                                    </LinearGradientBrush>
+                                </TextBlock.Foreground>Over!</TextBlock>
+
+                        </StackPanel>
 
                     </StackPanel>
                 </Grid>
@@ -65,37 +102,53 @@
             <PivotItem Header="Grid Size">
                 <Grid>
 
-
                     <StackPanel VerticalAlignment="Top" Margin="0,100,0,0">
 
-                        <TextBlock HorizontalAlignment="Center" Foreground="LightGreen" Text="Enter size of the grid" FontSize="40" Margin="0,0,0,30" FontFamily="Comic Sans MS" FontWeight="Bold" FontStyle="Normal"/>
+                        <TextBlock HorizontalAlignment="Center" Foreground="LightGreen" Text="Enter The Grid Size" FontSize="40" Margin="0,0,0,30" FontFamily="Comic Sans MS" FontWeight="Bold" FontStyle="Normal"/>
 
-                        <Button Click="FourByFour_OnClick" HorizontalAlignment="Center" Margin="0,0,0,30" Height="100" Width="300" FontSize="36" FontFamily="Comic Sans MS" FontWeight="Bold" FontStyle="Normal" BorderBrush="Black">
+                        <Button Click="FourByFour_OnClick" HorizontalAlignment="Center" Margin="0,0,0,30" Height="100" Width="300" FontSize="36" FontFamily="Comic Sans MS" FontWeight="ExtraBold" FontStyle="Normal" BorderBrush="NavajoWhite">
+
+                            <Button.Foreground >
+                                <SolidColorBrush Color="Black" />
+                            </Button.Foreground>
+
                             <Button.Background>
                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                     <GradientStop Color="#FF067259" Offset="1"/>
                                     <GradientStop Color="#FF35618D"/>
                                 </LinearGradientBrush>
-                            </Button.Background> 4 X 4
-                        </Button>
+                            </Button.Background> 
+                        4 X 4</Button>
 
-                        <Button Click="SixBySix_OnClick" HorizontalAlignment="Center" Margin="0,0,0,30" Height="100" Width="300" FontSize="36" FontFamily="Comic Sans MS" FontWeight="Bold" FontStyle="Normal" BorderBrush="Black" >
+                        <Button Click="SixBySix_OnClick" HorizontalAlignment="Center" Margin="0,0,0,30" Height="100" Width="300" FontSize="36" FontFamily="Comic Sans MS" FontWeight="ExtraBold" FontStyle="Normal" BorderBrush="NavajoWhite" >
+
+                            <Button.Foreground >
+                                <SolidColorBrush Color="Black" />
+                            </Button.Foreground>
+
                             <Button.Background>
                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                     <GradientStop Color="#FF067259" Offset="1"/>
                                     <GradientStop Color="#FF35618D"/>
                                 </LinearGradientBrush>
-                            </Button.Background> 6 X 6
-                        </Button>
+                            </Button.Background>
+                        6 X 6</Button>
 
-                        <Button Click="EightByEight_OnClick" HorizontalAlignment="Center" Margin="0,0,0,30" Height="100" Width="300" FontSize="36" FontFamily="Comic Sans MS" FontWeight="Bold" FontStyle="Normal" BorderBrush="Black" >
+                        <Button Click="EightByEight_OnClick" HorizontalAlignment="Center" Margin="0,0,0,30" Height="100" Width="300" FontSize="36" FontFamily="Comic Sans MS" FontWeight="ExtraBold" FontStyle="Normal" BorderBrush="NavajoWhite">
+
+                            <Button.Foreground >
+                                <SolidColorBrush Color="Black" />
+                            </Button.Foreground>
+
                             <Button.Background>
                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                     <GradientStop Color="#FF067259" Offset="1"/>
                                     <GradientStop Color="#FF35618D"/>
                                 </LinearGradientBrush>
-                            </Button.Background> 8 x 8
-                        </Button>
+                            </Button.Background>
+          
+                        8 x 8</Button>
+
                     </StackPanel>
 
                 </Grid>
@@ -104,14 +157,15 @@
             <PivotItem Header="Game History">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <ListView x:Name="ListView">
+
+                    <ListView x:Name="ListView" Grid.Column="0" Grid.Row="0" Margin="0,10,0,0">
                         <ListView.ItemTemplate >
                             <DataTemplate >
-                                <StackPanel Orientation="Vertical" Margin="20,0,0,20">
-                                    
+                                <StackPanel Orientation="Vertical" Margin="20,10,0,10">
+
                                     <StackPanel Orientation="Horizontal" >
                                         <TextBlock Margin="0,0,5,0" FontSize="20" FontFamily="Comic Sans MS" Foreground="LightGreen" FontWeight="ExtraBold" >Game Number:</TextBlock>
                                         <TextBlock FontSize="20" FontWeight="SemiBold" Text="{Binding GameNumber}">
@@ -137,19 +191,49 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <Button  x:Name="ResetHistory" Click="ResetHistory_OnClick"  Content="Reset History" Margin="30,0,0,0" Height="80" Width="200" HorizontalAlignment="left" VerticalAlignment="Center" 
-                            Grid.Column="1" Grid.Row="0" FontSize="25" FontFamily="Copperplate Gothic Light" FontWeight="Bold" BorderBrush="Black">
+
+                    <Button x:Name="ResetHistory" Click="ResetHistory_OnClick" Content="Reset History" Height="80" Width="300" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                            Grid.Column="1" Grid.Row="0" FontSize="28" FontFamily="Copperplate Gothic Light" FontWeight="ExtraBold" BorderBrush="NavajoWhite" Margin="0,20,0,0" >
                         <Button.Background>
                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                 <GradientStop Color="#FF067259" Offset="1"/>
                                 <GradientStop Color="#FF35618D"/>
                             </LinearGradientBrush>
                         </Button.Background>
+
+                        <Button.Foreground>
+                            <SolidColorBrush Color="Black"/>
+                        </Button.Foreground>
                     </Button>
+
+                    <StackPanel x:Name="ResetButtons" Orientation="Horizontal" Visibility="Collapsed" Height="80" Width="300"
+                                Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0, 110, 0,0">
+
+                        <Button x:Name="YesButton" Click="YesButton_OnClick" Height="60" Width="140" Background="#00b300" BorderBrush="NavajoWhite"
+                                FontSize="25" FontFamily="Copperplate Gothic Light" FontWeight="ExtraBold">
+
+                            <Button.Foreground>
+                                <SolidColorBrush Color="Black"/>
+                            </Button.Foreground>
+
+                        Yes</Button>
+
+
+                        <Button x:Name="NoButton" Click="NoButton_OnClick" Height="60" Width="140" Background="#ff0000" BorderBrush="NavajoWhite" Margin="20,0,0,0"
+                                FontSize="25" FontFamily="Copperplate Gothic Light" FontWeight="ExtraBold">
+                            
+                            <Button.Foreground>
+                                <SolidColorBrush Color="Black"/>
+                            </Button.Foreground>
+
+                        No</Button>
+                        
+                    </StackPanel>
+
 
                 </Grid>
             </PivotItem>
-  
+
         </Pivot>
 
     </Grid>

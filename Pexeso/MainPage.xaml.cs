@@ -22,7 +22,7 @@ namespace Pexeso
         // Observable collection holds game objects that the ListView displays in the Game History page
         // https://www.c-sharpcorner.com/UploadFile/5ef5aa/binding-collection-to-listview-control-in-uwp-explained/
         private readonly ObservableCollection<Game> _gameHistory; 
-        // keep track of current score
+        // keep track of current game score
         private int _currentScore;
 
         private readonly Random _rnd = new Random();
@@ -34,7 +34,6 @@ namespace Pexeso
         public MainPage()
         {
             InitializeComponent();
-           //LocalStorage.ClearGames();
              //ApplicationData.Current.LocalSettings.Values["games"] = null;//enable to wipe out the local storage
             _gameHistory = LocalStorage.Load(); // read from local storage and populate the observable collection.
              //_gameHistory.Add(new Game(DateTime.Now, 10));
@@ -169,18 +168,19 @@ namespace Pexeso
             InitGrid(_gridSize, gameGrid);
             FillPositions(_gridSize, gameGrid);
             Outer.Children.Add(gameGrid);
+            CurrentScore.Text = "Game Score: 0";
 
             var delayTime = 0;
             switch (_gridSize)
             {
                 case 4:
-                    delayTime = 3000;
+                    delayTime = 4000;
                     break;
                 case 6:
-                    delayTime = 6000;
+                    delayTime = 8000;
                     break;
                 case 8:
-                    delayTime = 9000;
+                    delayTime = 12000;
                     break;
                 default: throw new ArgumentException("grid size should be 4 6 or 8");
             }
@@ -197,7 +197,7 @@ namespace Pexeso
 
             _clickNo = 0;
             _currentScore = 0;
-            CurrentScore.Text = "Current Score: " + _currentScore;
+            CurrentScore.Text = "Game Score: " + _currentScore;
 
         }
 
@@ -226,7 +226,7 @@ namespace Pexeso
         private void DisplayScores()
         {
             HighScore.Text = "High Score: " + LocalStorage.LoadHighScore();
-            CurrentScore.Text = "Current Score: " + _currentScore;
+            CurrentScore.Text = "Game Score: " + _currentScore;
         }
 
         // this method gets called when a user taps a rectangle
@@ -340,11 +340,24 @@ namespace Pexeso
 
         private void ResetHistory_OnClick(object sender, RoutedEventArgs e)
         {
+            ResetButtons.Visibility = Visibility.Visible;
             
+        }
+
+        private void YesButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            
+            ResetButtons.Visibility = Visibility.Collapsed;
             LocalStorage.ClearGames(); // delete from local storage
             _gameHistory.Clear();
+            HighScore.Text = "High Score: 0";
+            CurrentScore.Text = "Game Score: 0";
 
+        }
 
+        private void NoButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            ResetButtons.Visibility = Visibility.Collapsed;
         }
     }
 }
