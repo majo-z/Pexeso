@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Pexeso
-{
+{//Game classes to represent game history
     class Game
     {
         public string Date { get; set; }

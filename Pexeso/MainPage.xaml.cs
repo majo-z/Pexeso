@@ -34,16 +34,16 @@ namespace Pexeso
         public MainPage()
         {
             InitializeComponent();
-             //ApplicationData.Current.LocalSettings.Values["games"] = null;//enable to wipe out the local storage
             _gameHistory = LocalStorage.Load(); // read from local storage and populate the observable collection.
-             //_gameHistory.Add(new Game(DateTime.Now, 10));
-             //_gameHistory.Add(new Game(DateTime.Now, 20));
             ListView.ItemsSource = _gameHistory;
             _gridSize = 4;
-            //InitGrid(_gridSize);
             DisplayScores();
-            //FillPositions(_gridSize);
-            // GeneratePossiblePositions(8);
+        }
+
+        private void DisplayScores()
+        {
+            HighScore.Text = "High Score: " + LocalStorage.LoadHighScore();
+            CurrentScore.Text = "Game Score: " + _currentScore;
         }
 
         //crate and draw rectangles
@@ -59,6 +59,8 @@ namespace Pexeso
         // create set of all possible positions
         private static IEnumerable<string> GeneratePossiblePositions(int size)
         {
+
+            // generate every possible unique position on the grid.
             var list = new List<string>();
 
             for (var row = 0; row < size; row++)
@@ -73,7 +75,8 @@ namespace Pexeso
             //https://forum.unity.com/threads/clever-way-to-shuffle-a-list-t-in-one-line-of-c-code.241052
             var random = new Random();
 
-            var shuffledList = list.OrderBy(x => random.Next()).ToList();
+            // randomly order the list so that when we take elements off they are in a random order
+            var shuffledList = list.OrderBy( x => random.Next()).ToList();
 
             return shuffledList;
         }
@@ -144,9 +147,7 @@ namespace Pexeso
                 int row2 = Int32.Parse(row2Col2[0]);
                 int col2 = Int32.Parse(row2Col2[1]);
 
-                //rect1.Tapped += Rectangle_Tapped; //==============================================================================
-                //rect2.Tapped += Rectangle_Tapped;//===========================================================================================================
-
+               
                 AddRectangleToGrid(rect1, row1, col1, grid);
                 AddRectangleToGrid(rect2, row2, col2, grid);
                 // place them on the grid
@@ -158,13 +159,36 @@ namespace Pexeso
         }
 
 
-        //New game button
+        private static void RevealImage(Shape rect)
+        {
+            var brush = new ImageBrush();
+            var uri = new Uri("ms-appx:///Assets/Images/" + rect.Tag + ".png", UriKind.RelativeOrAbsolute);
+            var bitmap = new BitmapImage(uri);
+
+            brush.ImageSource = bitmap;
+
+            rect.Fill = brush;
+        }
+
+        private static void SetToDefault(Shape rect)
+        {
+            var brush = new ImageBrush();
+            var uri = new Uri("ms-appx:///Assets/Images/100.png", UriKind.RelativeOrAbsolute);
+            var bitmap = new BitmapImage(uri);
+
+            brush.ImageSource = bitmap;
+
+            rect.Fill = brush;
+        }
+
+        //New game button event handler
         private async void NewGame_Click(object sender, RoutedEventArgs e)
         {
 
             GameOver.Visibility = Visibility.Collapsed;//hide won message when new game started
             Outer.Children.Clear(); // delete inner grid that contains the images
 
+            // initialize a brand new game grid.
             Grid gameGrid = new Grid();
             InitGrid(_gridSize, gameGrid);
             FillPositions(_gridSize, gameGrid);
@@ -196,7 +220,10 @@ namespace Pexeso
             {
                 var rect = child as Rectangle;
                 SetToDefault(rect);
-                rect.Tapped += Rectangle_Tapped;//=============================================================================================================
+                if (rect != null)
+                {
+                    rect.Tapped += Rectangle_Tapped; //rect can only be tapped when hidden(default)
+                }
             }
 
             _clickNo = 0;
@@ -205,33 +232,6 @@ namespace Pexeso
 
         }
 
-        private static void ToggleImage(Shape rect)
-        {
-            var brush = new ImageBrush(); // imagebrush is an object
-            var uri = new Uri("ms-appx:///Assets/Images/" + rect.Tag + ".png", UriKind.RelativeOrAbsolute);
-            var bitmap = new BitmapImage(uri);
-
-            brush.ImageSource = bitmap;
-
-            rect.Fill = brush;
-        }
-
-        private static void SetToDefault(Shape rect)
-        {
-            var brush = new ImageBrush(); // imagebrush is an object
-            var uri = new Uri("ms-appx:///Assets/Images/100.png", UriKind.RelativeOrAbsolute);
-            var bitmap = new BitmapImage(uri);
-
-            brush.ImageSource = bitmap;
-
-            rect.Fill = brush;
-        }
-
-        private void DisplayScores()
-        {
-            HighScore.Text = "High Score: " + LocalStorage.LoadHighScore();
-            CurrentScore.Text = "Game Score: " + _currentScore;
-        }
 
         // this method gets called when a user taps a rectangle
         private void Rectangle_Tapped(object sender, TappedRoutedEventArgs e)
@@ -241,24 +241,25 @@ namespace Pexeso
             // on first click, the tile flips
             if (_clickNo == 0)
             {
-                ToggleImage(rect);
+                RevealImage(rect);
                 _firstRectangle = rect;
                 _clickNo = 1;
             }
             else if (_clickNo == 1)
             {  // on second click, tile flips
+                // ignore clicks on the same image
                 if (_firstRectangle == rect)
                 {
                     return;
                 }
-                ToggleImage(rect);
+                RevealImage(rect);
                 _secondRectangle = rect;
                 _clickNo = 2;
 
                 bool gameOver = _totalTilesLeft == 2;
                 if (gameOver)
                 {
-                    _currentScore += 10;
+                    _currentScore += 10; // each match is worth 10 points
                     if (_currentScore > LocalStorage.LoadHighScore())
                     {
                         LocalStorage.SaveHighScore(_currentScore);
@@ -284,6 +285,7 @@ namespace Pexeso
                 { // ignore clicks on the same two rectangles.
                     return;
                 }
+                // use tag to determine if 2 rectangles are a pair
                 bool rectanglesMatch = _firstRectangle.Tag.ToString() == _secondRectangle.Tag.ToString();
                 if (rectanglesMatch)
                 {
@@ -310,7 +312,7 @@ namespace Pexeso
                     }
 
                 }
-                ToggleImage(rect); // display the new image
+                RevealImage(rect); // display the new image
                 _firstRectangle = rect; // save it
                 _clickNo = 1;
             }      
