@@ -31,7 +31,7 @@
                     </Grid.RowDefinitions>
                     
                     <!-- Game grid generated inside Outer as child-->
-                    <Grid x:Name="Outer" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2" Height="700" Width="700" Margin="10"></Grid>
+                    <Grid x:Name="OuterGrid" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2" Height="700" Width="700" Margin="10"></Grid>
 
                     <TextBlock Grid.Row="0" Grid.Column="0" FontFamily="Comic Sans MS" FontSize="70" FontWeight="ExtraBold" Margin="10,0,0,0">
                         <TextBlock.Foreground>
@@ -44,7 +44,7 @@
                         </TextBlock.Foreground>Match2</TextBlock>
 
                     <!-- Button needs to be placed after the grid otherwise the grid blocks it-->
-                    <Button x:Name="NewGame" Content="New Game" Click="NewGame_Click" Margin="20,130,0,0" Height="80" Width="230" HorizontalAlignment="Left" VerticalAlignment="Center"
+                    <Button x:Name="BtnNewGame" Content="New Game" Click="BtnNewGame_Click" Margin="20,130,0,0" Height="80" Width="230" HorizontalAlignment="Left" VerticalAlignment="Center"
                          Grid.Column="0" Grid.Row="0" FontSize="28" FontFamily="Copperplate Gothic Light" FontWeight="ExtraBold" BorderBrush="NavajoWhite">
 
                         <Button.Foreground >
@@ -62,15 +62,15 @@
 
                     <StackPanel Grid.Column="0" Grid.Row="1"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,40,0,0">
 
-                        <TextBlock x:Name="HighScore" FontSize="30" Foreground="LightGreen" FontWeight="ExtraBold" Margin="0,0,0,15">
+                        <TextBlock x:Name="TxtHighScore" FontSize="30" Foreground="LightGreen" FontWeight="ExtraBold" Margin="0,0,0,15">
                             High Score: 0
                         </TextBlock>
 
-                        <TextBlock x:Name="CurrentScore" FontSize="30" Foreground="LightGreen" FontWeight="ExtraBold" >
+                        <TextBlock x:Name="TxtCurrentScore" FontSize="30" Foreground="LightGreen" FontWeight="ExtraBold" >
                             Game Score: 0
                         </TextBlock>
 
-                        <StackPanel x:Name="GameOver" Visibility="Collapsed" HorizontalAlignment="Center" Margin="0,60,0,0" >
+                        <StackPanel x:Name="TxtGameOver" Visibility="Collapsed" HorizontalAlignment="Center" Margin="0,60,0,0" >
 
                             <TextBlock FontFamily="Comic Sans MS" FontSize="80" FontWeight="ExtraBold" Margin="0,0,0,-20">
                                 <TextBlock.Foreground>
@@ -106,7 +106,7 @@
 
                         <TextBlock HorizontalAlignment="Center" Foreground="LightGreen" Text="Enter The Grid Size" FontSize="40" Margin="0,0,0,30" FontFamily="Comic Sans MS" FontWeight="Bold" FontStyle="Normal"/>
 
-                        <Button Click="FourByFour_OnClick" HorizontalAlignment="Center" Margin="0,0,0,30" Height="100" Width="300" FontSize="36" FontFamily="Comic Sans MS" FontWeight="ExtraBold" FontStyle="Normal" BorderBrush="NavajoWhite">
+                        <Button Click="BtnFourByFour_OnClick" HorizontalAlignment="Center" Margin="0,0,0,30" Height="100" Width="300" FontSize="36" FontFamily="Comic Sans MS" FontWeight="ExtraBold" FontStyle="Normal" BorderBrush="NavajoWhite">
 
                             <Button.Foreground >
                                 <SolidColorBrush Color="Black" />
@@ -120,7 +120,7 @@
                             </Button.Background> 
                         4 X 4</Button>
 
-                        <Button Click="SixBySix_OnClick" HorizontalAlignment="Center" Margin="0,0,0,30" Height="100" Width="300" FontSize="36" FontFamily="Comic Sans MS" FontWeight="ExtraBold" FontStyle="Normal" BorderBrush="NavajoWhite" >
+                        <Button Click="BtnSixBySix_OnClick" HorizontalAlignment="Center" Margin="0,0,0,30" Height="100" Width="300" FontSize="36" FontFamily="Comic Sans MS" FontWeight="ExtraBold" FontStyle="Normal" BorderBrush="NavajoWhite" >
 
                             <Button.Foreground >
                                 <SolidColorBrush Color="Black" />
@@ -134,7 +134,7 @@
                             </Button.Background>
                         6 X 6</Button>
 
-                        <Button Click="EightByEight_OnClick" HorizontalAlignment="Center" Margin="0,0,0,30" Height="100" Width="300" FontSize="36" FontFamily="Comic Sans MS" FontWeight="ExtraBold" FontStyle="Normal" BorderBrush="NavajoWhite">
+                        <Button Click="BtnEightByEight_OnClick" HorizontalAlignment="Center" Margin="0,0,0,30" Height="100" Width="300" FontSize="36" FontFamily="Comic Sans MS" FontWeight="ExtraBold" FontStyle="Normal" BorderBrush="NavajoWhite">
 
                             <Button.Foreground >
                                 <SolidColorBrush Color="Black" />
@@ -192,7 +192,7 @@
                         </ListView.ItemTemplate>
                     </ListView>
 
-                    <Button x:Name="ResetHistory" Click="ResetHistory_OnClick" Content="Reset History" Height="80" Width="300" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                    <Button x:Name="BtnResetHistory" Click="BtnResetHistory_OnClick" Content="Reset History" Height="80" Width="300" HorizontalAlignment="Left" VerticalAlignment="Top" 
                             Grid.Column="1" Grid.Row="0" FontSize="28" FontFamily="Copperplate Gothic Light" FontWeight="ExtraBold" BorderBrush="NavajoWhite" Margin="10,20,0,0" >
                         <Button.Background>
                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -209,7 +209,7 @@
                     <StackPanel x:Name="ResetButtons" Orientation="Horizontal" Visibility="Collapsed" Height="80" Width="300"
                                 Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10, 110, 0,0">
 
-                        <Button x:Name="YesButton" Click="YesButton_OnClick" Height="60" Width="140" Background="#00b300" BorderBrush="NavajoWhite"
+                        <Button x:Name="BtnYes" Click="BtnYes_OnClick" Height="60" Width="140" Background="#00b300" BorderBrush="NavajoWhite"
                                 FontSize="25" FontFamily="Copperplate Gothic Light" FontWeight="ExtraBold">
 
                             <Button.Foreground>
@@ -219,7 +219,7 @@
                         Yes</Button>
 
 
-                        <Button x:Name="NoButton" Click="NoButton_OnClick" Height="60" Width="140" Background="#ff0000" BorderBrush="NavajoWhite" Margin="20,0,0,0"
+                        <Button x:Name="BtnNo" Click="BtnNo_OnClick" Height="60" Width="140" Background="#ff0000" BorderBrush="NavajoWhite" Margin="20,0,0,0"
                                 FontSize="25" FontFamily="Copperplate Gothic Light" FontWeight="ExtraBold">
                             
                             <Button.Foreground>

@@ -11,10 +11,8 @@ namespace Pexeso
 {
     // LocalStorage is a class that provides Save/Load helper methods to interact with the system storage.
     class LocalStorage
-    {
-        /*
-         * Deletes all history of games and resets high score
-         */
+    {       
+        //Deletes all history of games and resets high score
         public static void ClearGames()
         {
             ApplicationData.Current.LocalSettings.Values["games"] = null;
@@ -69,17 +67,20 @@ namespace Pexeso
             //otherwise, there is some information saved in local storage
             string gamesAsStr = ApplicationData.Current.LocalSettings.Values["games"] as string;
 
-            string[] individualGames = gamesAsStr.Split(';'); // { 10,Saturday;15,Sunday }
-            foreach (var game in individualGames)
+            if (gamesAsStr != null)
             {
-                string[] details = game.Split(','); // { 10 Saturday }
-                Game g = new Game();
-                g.GameNumber = Int32.Parse(details[0]);
-                g.Score = Int32.Parse(details[1]);
-                g.GridSize = Int32.Parse(details[2]);
-                g.Date = details[3];
+                string[] individualGames = gamesAsStr.Split(';'); // { 10,Saturday;15,Sunday }
+                foreach (var game in individualGames)
+                {
+                    string[] details = game.Split(','); // { 10 Saturday }
+                    Game g = new Game();
+                    g.GameNumber = Int32.Parse(details[0]);
+                    g.Score = Int32.Parse(details[1]);
+                    g.GridSize = Int32.Parse(details[2]);
+                    g.Date = details[3];
                 
-                games.Add(g);
+                    games.Add(g);
+                }
             }
 
             return games;

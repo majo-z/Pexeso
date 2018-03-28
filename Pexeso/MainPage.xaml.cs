@@ -42,8 +42,8 @@ namespace Pexeso
 
         private void DisplayScores()
         {
-            HighScore.Text = "High Score: " + LocalStorage.LoadHighScore();
-            CurrentScore.Text = "Game Score: " + _currentScore;
+            TxtHighScore.Text = "High Score: " + LocalStorage.LoadHighScore();
+            TxtCurrentScore.Text = "Game Score: " + _currentScore;
         }
 
         //crate and draw rectangles
@@ -54,8 +54,7 @@ namespace Pexeso
                 grid.ColumnDefinitions.Add(new ColumnDefinition());
             }
         }
-
-        
+     
         // create set of all possible positions
         private static IEnumerable<string> GeneratePossiblePositions(int size)
         {
@@ -129,10 +128,8 @@ namespace Pexeso
 
                 // create 2 rectanges and connect them
                 var rect1 = GenerateRectangle(imageNum, imageNum.ToString());
-
                 var rect2 = GenerateRectangle(imageNum, imageNum.ToString());
            
-
                 // take two off the top
                 string first = allPositions.Pop(); // "0_0"
                 string second = allPositions.Pop(); // "1_6" 
@@ -151,7 +148,6 @@ namespace Pexeso
                 AddRectangleToGrid(rect1, row1, col1, grid);
                 AddRectangleToGrid(rect2, row2, col2, grid);
                 // place them on the grid
-
             }
 
             // calculate the total number of tiles that are in the grid.
@@ -173,7 +169,7 @@ namespace Pexeso
         private static void SetToDefault(Shape rect)
         {
             var brush = new ImageBrush();
-            var uri = new Uri("ms-appx:///Assets/Images/100.png", UriKind.RelativeOrAbsolute);
+            var uri = new Uri("ms-appx:///Assets/Images/defaultPic.png", UriKind.RelativeOrAbsolute);//default qustion mark picture
             var bitmap = new BitmapImage(uri);
 
             brush.ImageSource = bitmap;
@@ -182,18 +178,18 @@ namespace Pexeso
         }
 
         //New game button event handler
-        private async void NewGame_Click(object sender, RoutedEventArgs e)
+        private async void BtnNewGame_Click(object sender, RoutedEventArgs e)
         {
 
-            GameOver.Visibility = Visibility.Collapsed;//hide won message when new game started
-            Outer.Children.Clear(); // delete inner grid that contains the images
+            TxtGameOver.Visibility = Visibility.Collapsed;//hide won message when new game started
+            OuterGrid.Children.Clear(); // delete inner grid that contains the images
 
             // initialize a brand new game grid.
             Grid gameGrid = new Grid();
             InitGrid(_gridSize, gameGrid);
             FillPositions(_gridSize, gameGrid);
-            Outer.Children.Add(gameGrid);
-            CurrentScore.Text = "Game Score: 0";
+            OuterGrid.Children.Add(gameGrid);
+            TxtCurrentScore.Text = "Game Score: 0";
 
             int delayTime;
             switch (_gridSize)
@@ -228,10 +224,8 @@ namespace Pexeso
 
             _clickNo = 0;
             _currentScore = 0;
-            CurrentScore.Text = "Game Score: " + _currentScore;
-
+            TxtCurrentScore.Text = "Game Score: " + _currentScore;
         }
-
 
         // this method gets called when a user taps a rectangle
         private void Rectangle_Tapped(object sender, TappedRoutedEventArgs e)
@@ -273,7 +267,7 @@ namespace Pexeso
                     LocalStorage.Save(_gameHistory);
 
                     //display Game over message
-                    GameOver.Visibility = Visibility.Visible;
+                    TxtGameOver.Visibility = Visibility.Visible;
 
                     return;
                 }
@@ -319,46 +313,44 @@ namespace Pexeso
             DisplayScores();
 
         }
-        /*
-         * Event handles that get called when the user selects a new grid size.
-         */
-        private void FourByFour_OnClick(object sender, RoutedEventArgs e)
+        
+        //Event handles that get called when the user selects a new grid size       
+        private void BtnFourByFour_OnClick(object sender, RoutedEventArgs e)
         {
             _gridSize = 4;
             MainPivot.SelectedIndex = 0;
-            NewGame_Click(null, null); // calling the NewGame_Click event handler
+            BtnNewGame_Click(null, null); // calling the BtnNewGame_Click event handler
         }
-        private void SixBySix_OnClick(object sender, RoutedEventArgs e)
+        private void BtnSixBySix_OnClick(object sender, RoutedEventArgs e)
         {
             _gridSize = 6;
             MainPivot.SelectedIndex = 0;
-            NewGame_Click(null, null);
+            BtnNewGame_Click(null, null);
         }
-        private void EightByEight_OnClick(object sender, RoutedEventArgs e)
+        private void BtnEightByEight_OnClick(object sender, RoutedEventArgs e)
         {
             _gridSize = 8;
             MainPivot.SelectedIndex = 0;
-            NewGame_Click(null, null);
+            BtnNewGame_Click(null, null);
         }
 
-        private void ResetHistory_OnClick(object sender, RoutedEventArgs e)
+        //Event handles that get called when the user selects to reset the srored history of games
+        private void BtnResetHistory_OnClick(object sender, RoutedEventArgs e)
         {
             ResetButtons.Visibility = Visibility.Visible;
             
         }
-
-        private void YesButton_OnClick(object sender, RoutedEventArgs e)
+        private void BtnYes_OnClick(object sender, RoutedEventArgs e)
         {
             
             ResetButtons.Visibility = Visibility.Collapsed;
             LocalStorage.ClearGames(); // delete from local storage
             _gameHistory.Clear();
-            HighScore.Text = "High Score: 0";
-            CurrentScore.Text = "Game Score: 0";
+            TxtHighScore.Text = "High Score: 0";
+            TxtCurrentScore.Text = "Game Score: 0";
 
         }
-
-        private void NoButton_OnClick(object sender, RoutedEventArgs e)
+        private void BtnNo_OnClick(object sender, RoutedEventArgs e)
         {
             ResetButtons.Visibility = Visibility.Collapsed;
         }
