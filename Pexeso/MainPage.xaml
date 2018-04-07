@@ -29,7 +29,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
-                    
+
                     <!-- Game grid generated inside Outer as child-->
                     <Grid x:Name="OuterGrid" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2" Height="700" Width="700" Margin="10"></Grid>
 
@@ -117,8 +117,9 @@
                                     <GradientStop Color="#FF067259" Offset="1"/>
                                     <GradientStop Color="#FF35618D"/>
                                 </LinearGradientBrush>
-                            </Button.Background> 
-                        4 X 4</Button>
+                            </Button.Background>
+                            4 X 4
+                        </Button>
 
                         <Button Click="BtnSixBySix_OnClick" HorizontalAlignment="Center" Margin="0,0,0,30" Height="100" Width="300" FontSize="36" FontFamily="Comic Sans MS" FontWeight="ExtraBold" FontStyle="Normal" BorderBrush="NavajoWhite" >
 
@@ -132,7 +133,8 @@
                                     <GradientStop Color="#FF35618D"/>
                                 </LinearGradientBrush>
                             </Button.Background>
-                        6 X 6</Button>
+                            6 X 6
+                        </Button>
 
                         <Button Click="BtnEightByEight_OnClick" HorizontalAlignment="Center" Margin="0,0,0,30" Height="100" Width="300" FontSize="36" FontFamily="Comic Sans MS" FontWeight="ExtraBold" FontStyle="Normal" BorderBrush="NavajoWhite">
 
@@ -146,8 +148,8 @@
                                     <GradientStop Color="#FF35618D"/>
                                 </LinearGradientBrush>
                             </Button.Background>
-          
-                        8 x 8</Button>
+                            8 x 8
+                        </Button>
 
                     </StackPanel>
 
@@ -216,18 +218,20 @@
                                 <SolidColorBrush Color="Black"/>
                             </Button.Foreground>
 
-                        Yes</Button>
+                            Yes
+                        </Button>
 
 
                         <Button x:Name="BtnNo" Click="BtnNo_OnClick" Height="60" Width="140" Background="#ff0000" BorderBrush="NavajoWhite" Margin="20,0,0,0"
                                 FontSize="25" FontFamily="Copperplate Gothic Light" FontWeight="ExtraBold">
-                            
+
                             <Button.Foreground>
                                 <SolidColorBrush Color="Black"/>
                             </Button.Foreground>
 
-                        No</Button>
-                        
+                            No
+                        </Button>
+
                     </StackPanel>
 
 

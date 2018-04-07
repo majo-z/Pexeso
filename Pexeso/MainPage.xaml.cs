@@ -12,11 +12,7 @@ using Windows.UI.Xaml.Shapes;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
-namespace Pexeso
-{
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
+namespace Pexeso{
     public sealed partial class MainPage : Page
     {
         // Observable collection holds game objects that the ListView displays in the Game History page
@@ -58,7 +54,6 @@ namespace Pexeso
         // create set of all possible positions
         private static IEnumerable<string> GeneratePossiblePositions(int size)
         {
-
             // generate every possible unique position on the grid.
             var list = new List<string>();
 
@@ -102,20 +97,16 @@ namespace Pexeso
             rect.Width = grid.Width / _gridSize;
             rect.Height = grid.Height / _gridSize;
             grid.Children.Add(rect);
-
         }
 
         private void FillPositions(int size, Panel grid)
         {
-            // get all possible positions
-      
+            // get all possible positions    
             var usedNumbers = new HashSet<int>(); // keep track of all the image numbers used so far
             var allPositions = new Stack<string>(GeneratePossiblePositions(size));
             while (allPositions.Count > 0) // keep going until no positions are left
-            {
-              
-                // https://stackoverflow.com/questions/2706500/how-do-i-generate-a-random-int-number-in-c
-                
+            {            
+                // https://stackoverflow.com/questions/2706500/how-do-i-generate-a-random-int-number-in-c               
                 var imageNum = _rnd.Next(1, 61); // creates a number between 1 and 61
 
                 // ensure that there is only one pair of each image.
@@ -143,8 +134,7 @@ namespace Pexeso
                 int col1 = Int32.Parse(row1Col1[1]);
                 int row2 = Int32.Parse(row2Col2[0]);
                 int col2 = Int32.Parse(row2Col2[1]);
-
-               
+              
                 AddRectangleToGrid(rect1, row1, col1, grid);
                 AddRectangleToGrid(rect2, row2, col2, grid);
                 // place them on the grid
@@ -153,7 +143,6 @@ namespace Pexeso
             // calculate the total number of tiles that are in the grid.
             _totalTilesLeft = _gridSize * _gridSize;
         }
-
 
         private static void RevealImage(Shape rect)
         {
@@ -180,7 +169,6 @@ namespace Pexeso
         //New game button event handler
         private async void BtnNewGame_Click(object sender, RoutedEventArgs e)
         {
-
             TxtGameOver.Visibility = Visibility.Collapsed;//hide won message when new game started
             OuterGrid.Children.Clear(); // delete inner grid that contains the images
 
@@ -271,10 +259,10 @@ namespace Pexeso
 
                     return;
                 }
-
             }
             else if (_clickNo == 2)
-            { // ton 3rd click, check the previous 2 rectangles to see if they match
+            { 
+                // ton 3rd click, check the previous 2 rectangles to see if they match
                 if (rect == _firstRectangle || rect ==_secondRectangle)
                 { // ignore clicks on the same two rectangles.
                     return;
@@ -304,14 +292,12 @@ namespace Pexeso
                     {
                         _currentScore = 0;
                     }
-
                 }
                 RevealImage(rect); // display the new image
                 _firstRectangle = rect; // save it
                 _clickNo = 1;
             }      
             DisplayScores();
-
         }
         
         //Event handles that get called when the user selects a new grid size       

@@ -33,6 +33,5 @@ namespace Pexeso
             //date formatting...https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings
             Date = date.ToString("dd-MMM-yyyy") + " - " + date.ToString("H:mm:ss");
         }
-
     }
 }

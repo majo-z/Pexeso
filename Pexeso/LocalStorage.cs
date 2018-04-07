@@ -49,8 +49,7 @@ namespace Pexeso
             if (sb.Length > 1)
             {
                 sb.Length--;
-            }
-         
+            }       
             ApplicationData.Current.LocalSettings.Values["games"] = sb.ToString();
         }
 
